@@ -1,8 +1,32 @@
+import path from 'node:path'
 import { loadEnv, defineConfig } from '@medusajs/framework/utils'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 module.exports = defineConfig({
+  admin: {
+    vite: (config) => {
+      const faviconHref = `${(config.base ?? '/app').replace(/\/$/, '')}/favicon.svg`
+      return {
+        publicDir: path.resolve(__dirname, 'src/admin/public'),
+        plugins: [
+          {
+            name: 'maison-luxe-admin-branding',
+            transformIndexHtml: {
+              order: 'post',
+              handler: (html: string) =>
+                html
+                  .replace(
+                    /<link rel="icon" href="data:," data-placeholder-favicon \/>/,
+                    `<link rel="icon" type="image/svg+xml" href="${faviconHref}" />`
+                  )
+                  .replace('<head>', '<head>\n        <title>Maison Luxe — Admin</title>'),
+            },
+          },
+        ],
+      }
+    },
+  },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     redisUrl: process.env.REDIS_URL,
