@@ -169,6 +169,58 @@ Corrido con build de produccion (`pnpm build && pnpm start`) sobre `/products/re
 
 El unico punto por debajo de 90 es Performance en mobile, explicado enteramente por el LCP (4.4s): la foto de stock de Unsplash se sirve a través del optimizador de imagenes de Next, que la descarga del origen externo en tiempo real — bajo la simulacion de red lenta de Lighthouse, ese round-trip domina la metrica. Ya se corrigio `fetchPriority="high"` + `loading="eager"` en la imagen principal (`product-media.tsx`, `priority` estaba deprecado en Next 16 y ya no seteaba `fetchPriority` automaticamente), pero no mueve la aguja porque el cuello de botella es la transferencia de red, no el orden de carga. Se resuelve solo reemplazando las fotos de stock por fotografia real autoalojada (ya documentado como pendiente en la sección de Catálogo).
 
+## Deploy (Fase 11)
+
+Frontend en **Vercel**, backend en **Railway** (Postgres/Redis gestionados por Railway), Stripe en modo test, sin dominio propio (subdominios gratuitos). El `Dockerfile` en la raiz construye y corre `apps/backend`; `apps/web` no lo usa — Vercel lo despliega directo con su build nativo de Next.js.
+
+### Backend (Railway)
+
+1. Crea un servicio nuevo en Railway apuntando a este repo de GitHub. Railway detecta el `Dockerfile` de la raiz automaticamente (build context = raiz del repo, no `apps/backend`).
+2. Agrega los plugins de **PostgreSQL** y **Redis** de Railway al mismo proyecto — te dan `DATABASE_URL`/`REDIS_URL` internos automaticamente (puedes referenciarlos como `${{Postgres.DATABASE_URL}}` / `${{Redis.REDIS_URL}}` en las variables del servicio backend).
+3. Variables de entorno del servicio backend:
+
+   | Variable | Valor |
+   |---|---|
+   | `DATABASE_URL` | referencia al plugin de Postgres |
+   | `REDIS_URL` | referencia al plugin de Redis |
+   | `JWT_SECRET` | generar nuevo, no reusar el de `.env` local |
+   | `COOKIE_SECRET` | generar nuevo, no reusar el de `.env` local |
+   | `STORE_CORS` | `https://tu-proyecto.vercel.app` |
+   | `ADMIN_CORS` | `https://tu-backend.up.railway.app` |
+   | `AUTH_CORS` | `https://tu-proyecto.vercel.app,https://tu-backend.up.railway.app` |
+   | `STRIPE_API_KEY` | tu `sk_test_...` actual |
+   | `STRIPE_WEBHOOK_SECRET` | ver paso 5 |
+   | `RESEND_API_KEY` | tu key actual |
+   | `STORE_OWNER_EMAIL` | tu correo actual |
+   | `STOREFRONT_URL` | `https://tu-proyecto.vercel.app` |
+   | `NODE_ENV` | `production` |
+
+4. Tras el primer deploy exitoso, corre una sola vez (Railway shell o `railway run`, desde `apps/backend`):
+   ```bash
+   pnpm exec medusa db:migrate
+   pnpm exec medusa user -e tu@email.com -p tu-password
+   pnpm run seed:luxury
+   ```
+5. Crea un webhook en el dashboard de Stripe apuntando a `https://tu-backend.up.railway.app/hooks/payment/stripe_stripe` (evento `payment_intent.*` como minimo). Copia el `whsec_...` que te da a `STRIPE_WEBHOOK_SECRET` en Railway.
+
+### Frontend (Vercel)
+
+1. Importa el repo en Vercel. Root Directory: `apps/web` (Vercel detecta Next.js automaticamente, no necesita config extra).
+2. Variables de entorno:
+
+   | Variable | Valor |
+   |---|---|
+   | `NEXT_PUBLIC_MEDUSA_BACKEND_URL` | `https://tu-backend.up.railway.app` |
+   | `NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY` | la generas en `https://tu-backend.up.railway.app/app` → Settings → API Key Management, **despues** de sembrar el catalogo (paso 4 de arriba) |
+   | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | tu `pk_test_...` actual |
+   | `RESEND_API_KEY` / `STORE_OWNER_EMAIL` | solo si algun Server Action del frontend los usa directo; las plantillas de correo viven en el backend |
+
+### Pendiente, no bloqueante
+
+- **Resend**: sin dominio verificado, producción tiene la misma restriccion de sandbox que local (cuota baja, solo entrega a tu propio correo — ver Fase 7).
+- **Fotografia de producto**: Unsplash hotlinkeado, mismo impacto en Lighthouse mobile que en local (ver Fase 10).
+- El Dockerfile fue probado localmente end-to-end (build + boot contra Postgres/Redis reales) antes de subirlo.
+
 ## Estado del proyecto
 
-Ver el plan de fases en la conversación con Claude Code. Fase actual: **10 — Testing/QA** completada.
+Ver el plan de fases en la conversación con Claude Code. Fase actual: **11 — Deploy** en progreso.
