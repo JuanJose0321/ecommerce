@@ -1,0 +1,38 @@
+name: ecommerce-luxe
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ecommerce-luxe-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa
+      POSTGRES_DB: medusa_store
+    ports:
+      - "5434:5432"
+    volumes:
+      - ecommerce_luxe_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medusa -d medusa_store"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-luxe-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ecommerce_luxe_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ecommerce_luxe_pg_data:
+  ecommerce_luxe_redis_data:
