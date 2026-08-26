@@ -1,5 +1,7 @@
 packages:
   - "apps/*"
+overrides:
+  jiti: ^2.7.0
 allowBuilds:
   '@medusajs/telemetry': true
   '@swc/core': true
