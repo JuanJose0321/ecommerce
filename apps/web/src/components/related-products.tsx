@@ -23,7 +23,7 @@ export async function RelatedProducts({
 
   return (
     <section className="space-y-4 border-t border-border pt-10">
-      <h2 className="font-heading text-2xl">Tambien te puede interesar</h2>
+      <h2 className="font-heading text-2xl">También te puede interesar</h2>
       <ProductGrid products={related} />
     </section>
   )

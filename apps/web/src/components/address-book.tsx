@@ -17,8 +17,8 @@ import { SubmitButton } from "@/components/ui/submit-button"
 import type { CustomerAddress } from "@/lib/auth"
 
 function handleSessionExpiry(message: string, router: ReturnType<typeof useRouter>) {
-  if (message === "Sesion expirada.") {
-    toast.error("Tu sesion expiro. Inicia sesion de nuevo.")
+  if (message === "Sesión expirada.") {
+    toast.error("Tu sesión expiró. Inicia sesión de nuevo.")
     router.push("/account/login")
     return true
   }
@@ -108,7 +108,7 @@ export function AddressBook({
 
     setStatus("idle")
     cancel()
-    toast.success(editingId ? "Direccion actualizada" : "Direccion guardada")
+    toast.success(editingId ? "Dirección actualizada" : "Dirección guardada")
     router.refresh()
   }
 
@@ -120,7 +120,7 @@ export function AddressBook({
       }
       return
     }
-    toast.success("Direccion eliminada")
+    toast.success("Dirección eliminada")
     router.refresh()
   }
 
@@ -130,7 +130,7 @@ export function AddressBook({
     <div className="space-y-6">
       {initialAddresses.length === 0 && !isFormOpen ? (
         <p className="text-sm text-muted-foreground">
-          Aun no tienes direcciones guardadas.
+          Aún no tienes direcciones guardadas.
         </p>
       ) : null}
 
@@ -189,7 +189,7 @@ export function AddressBook({
               <FormField label="Nombre" value={form.first_name} onChange={(e) => setForm((f) => ({ ...f, first_name: e.target.value }))} required />
               <FormField label="Apellido" value={form.last_name} onChange={(e) => setForm((f) => ({ ...f, last_name: e.target.value }))} required />
             </div>
-            <FormField label="Direccion" value={form.address_1} onChange={(e) => setForm((f) => ({ ...f, address_1: e.target.value }))} required />
+            <FormField label="Dirección" value={form.address_1} onChange={(e) => setForm((f) => ({ ...f, address_1: e.target.value }))} required />
             <FormField
               label="Referencias (opcional)"
               value={form.address_2}
@@ -201,12 +201,12 @@ export function AddressBook({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <FormField
-                label="Codigo postal"
+                label="Código postal"
                 value={form.postal_code}
                 onChange={(e) => setForm((f) => ({ ...f, postal_code: e.target.value }))}
                 required
               />
-              <FormField label="Telefono" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} required />
+              <FormField label="Teléfono" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} required />
             </div>
 
             <AnimatePresence mode="wait" initial={false}>
@@ -219,7 +219,7 @@ export function AddressBook({
 
             <div className="flex gap-3">
               <SubmitButton loading={status === "submitting"} loadingText="Guardando..." className="w-auto px-5">
-                Guardar direccion
+                Guardar dirección
               </SubmitButton>
               <button
                 type="button"
@@ -243,7 +243,7 @@ export function AddressBook({
             whileTap={{ scale: 0.98 }}
             className="rounded-full border border-border px-5 py-2 text-sm transition-colors duration-200 hover:border-foreground"
           >
-            Anadir direccion
+            Añadir dirección
           </motion.button>
         )}
       </AnimatePresence>

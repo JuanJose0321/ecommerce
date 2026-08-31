@@ -26,8 +26,8 @@ export function OfflineBanner() {
       className="fixed inset-x-0 top-16 z-50 flex items-center justify-center gap-2 bg-destructive px-4 py-2.5 text-center text-sm text-white"
     >
       <WifiOff className="size-4" aria-hidden="true" />
-      Perdiste la conexion a internet. Tu progreso en el checkout se guarda, pero no
-      podras confirmar el pago hasta reconectarte.
+      Perdiste la conexión a internet. Tu progreso en el checkout se guarda, pero no
+      podrás confirmar el pago hasta reconectarte.
     </div>
   )
 }

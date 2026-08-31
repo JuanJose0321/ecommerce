@@ -22,7 +22,7 @@ type CartContextValue = {
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
-const NETWORK_ERROR_MESSAGE = "Error de red. Revisa tu conexion e intenta de nuevo."
+const NETWORK_ERROR_MESSAGE = "Error de red. Revisa tu conexión e intenta de nuevo."
 
 export function CartProvider({
   initialCart,
@@ -45,7 +45,7 @@ export function CartProvider({
       if (result.ok) {
         setCart(result.cart)
         setIsOpen(true)
-        toast.success("Producto anadido al carrito")
+        toast.success("Producto añadido al carrito")
         return { ok: true }
       }
       toast.error(result.message)

@@ -48,7 +48,7 @@ export function EmailLayout({
           <Section>{children}</Section>
           <Hr style={{ borderColor: "#e7e5e4", margin: "32px 0 16px" }} />
           <Text style={{ fontSize: "12px", color: "#a8a29e" }}>
-            Maison Luxe — relojeria, joyeria, moda y tecnologia premium.
+            Maison Luxe — relojería, joyería, moda y tecnología premium.
           </Text>
         </Container>
       </Body>

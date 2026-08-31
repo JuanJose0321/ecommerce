@@ -63,7 +63,7 @@ export function ShippingStep({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedOption) {
-      setShippingError("Selecciona un metodo de envio.")
+      setShippingError("Selecciona un método de envío.")
       return
     }
     setShippingError(null)
@@ -90,13 +90,13 @@ export function ShippingStep({
   return (
     <AnimatedForm onSubmit={handleSubmit} className="space-y-10">
       <div className="space-y-5">
-        <h2 className="font-heading text-xl">Contacto y envio</h2>
+        <h2 className="font-heading text-xl">Contacto y envío</h2>
         <FormField label="Correo" type="email" autoComplete="email" required value={form.email} onChange={(e) => update("email", e.target.value)} />
         <div className="grid grid-cols-2 gap-4">
           <FormField label="Nombre" autoComplete="given-name" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
           <FormField label="Apellido" autoComplete="family-name" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} />
         </div>
-        <FormField label="Direccion" autoComplete="address-line1" required value={form.address_1} onChange={(e) => update("address_1", e.target.value)} />
+        <FormField label="Dirección" autoComplete="address-line1" required value={form.address_1} onChange={(e) => update("address_1", e.target.value)} />
         <FormField
           label="Referencias (opcional)"
           autoComplete="address-line2"
@@ -109,19 +109,19 @@ export function ShippingStep({
         </div>
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            label="Codigo postal"
+            label="Código postal"
             autoComplete="postal-code"
             required
             value={form.postal_code}
             onChange={(e) => update("postal_code", e.target.value.replace(/\D/g, "").slice(0, 5))}
-            hint={estimate ? `Zona ${estimate.zone}: estandar ${estimate.standardDays}, exprés ${estimate.expressDays}.` : undefined}
+            hint={estimate ? `Zona ${estimate.zone}: estándar ${estimate.standardDays}, exprés ${estimate.expressDays}.` : undefined}
           />
-          <FormField label="Telefono" autoComplete="tel" required value={form.phone} onChange={(e) => update("phone", e.target.value)} />
+          <FormField label="Teléfono" autoComplete="tel" required value={form.phone} onChange={(e) => update("phone", e.target.value)} />
         </div>
       </div>
 
       <div className="space-y-3">
-        <h2 className="font-heading text-xl">Metodo de envio</h2>
+        <h2 className="font-heading text-xl">Método de envío</h2>
         {shippingOptions.map((option) => (
           <label
             key={option.id}

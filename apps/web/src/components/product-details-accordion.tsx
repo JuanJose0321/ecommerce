@@ -9,10 +9,10 @@ export function ProductDetailsAccordion() {
   return (
     <Accordion className="w-full">
       <AccordionItem value="shipping">
-        <AccordionTrigger>Envio y entrega</AccordionTrigger>
+        <AccordionTrigger>Envío y entrega</AccordionTrigger>
         <AccordionContent>
-          Envio estandar en 3-5 dias habiles o exprés en 24-48 horas dentro de
-          Mexico. El costo exacto se calcula en el checkout segun tu codigo
+          Envío estándar en 3-5 días hábiles o exprés en 24-48 horas dentro de
+          México. El costo exacto se calcula en el checkout según tu código
           postal.
         </AccordionContent>
       </AccordionItem>
@@ -27,8 +27,8 @@ export function ProductDetailsAccordion() {
       <AccordionItem value="returns">
         <AccordionTrigger>Devoluciones</AccordionTrigger>
         <AccordionContent>
-          Tienes 30 dias naturales desde la entrega para solicitar un cambio o
-          devolucion, siempre que la pieza no muestre uso.
+          Tienes 30 días naturales desde la entrega para solicitar un cambio o
+          devolución, siempre que la pieza no muestre uso.
         </AccordionContent>
       </AccordionItem>
     </Accordion>

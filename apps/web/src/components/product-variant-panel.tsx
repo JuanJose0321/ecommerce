@@ -101,7 +101,7 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
           type="button"
           disabled={outOfStock}
           loading={status === "adding"}
-          loadingText="Anadiendo..."
+          loadingText="Añadiendo..."
           onClick={handleAddToCart}
           className="py-3.5"
         >
@@ -116,10 +116,10 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
               className="flex items-center gap-2"
             >
               <Check className="size-4" aria-hidden />
-              Anadido al carrito
+              Añadido al carrito
             </motion.span>
           ) : (
-            "Anadir al carrito"
+            "Añadir al carrito"
           )}
         </SubmitButton>
         <div className="flex justify-center">
@@ -150,7 +150,7 @@ function StockBadge({
   if (outOfStock) {
     return (
       <p className="text-sm font-medium text-destructive">
-        Agotado en esta combinacion
+        Agotado en esta combinación
       </p>
     )
   }

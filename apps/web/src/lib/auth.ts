@@ -31,7 +31,7 @@ export type Customer = {
 
 function authHeaders(token?: string) {
   if (!MEDUSA_PUBLISHABLE_KEY) {
-    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no esta configurada.")
+    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no está configurada.")
   }
   return {
     "x-publishable-api-key": MEDUSA_PUBLISHABLE_KEY,
@@ -97,7 +97,7 @@ export async function registerCustomer(
   )
 
   if (!registerRes.ok) {
-    return { ok: false, message: "Ese correo ya esta registrado." }
+    return { ok: false, message: "Ese correo ya está registrado." }
   }
 
   const { token: registrationToken } = await registerRes.json()
@@ -123,7 +123,7 @@ export async function registerCustomer(
   })
 
   if (!loginRes.ok) {
-    return { ok: false, message: "Cuenta creada, pero no se pudo iniciar sesion." }
+    return { ok: false, message: "Cuenta creada, pero no se pudo iniciar sesión." }
   }
 
   const { token } = await loginRes.json()
@@ -153,7 +153,7 @@ export async function completePasswordReset(
   })
 
   if (!res.ok) {
-    return { ok: false, message: "El enlace expiro o ya se uso. Solicita uno nuevo." }
+    return { ok: false, message: "El enlace expiró o ya se usó. Solicita uno nuevo." }
   }
 
   return { ok: true }
@@ -170,7 +170,7 @@ export async function loginCustomer(
   })
 
   if (!res.ok) {
-    return { ok: false, message: "Correo o contrasena incorrectos." }
+    return { ok: false, message: "Correo o contraseña incorrectos." }
   }
 
   const { token } = await res.json()
@@ -182,7 +182,7 @@ export async function addCustomerAddress(
   input: Omit<CustomerAddress, "id" | "is_default_shipping">
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const token = await getSessionToken()
-  if (!token) return { ok: false, message: "Sesion expirada." }
+  if (!token) return { ok: false, message: "Sesión expirada." }
 
   const res = await fetch(`${MEDUSA_BACKEND_URL}/store/customers/me/addresses`, {
     method: "POST",
@@ -190,7 +190,7 @@ export async function addCustomerAddress(
     body: JSON.stringify(input),
   })
 
-  if (!res.ok) return { ok: false, message: "No se pudo guardar la direccion." }
+  if (!res.ok) return { ok: false, message: "No se pudo guardar la dirección." }
   return { ok: true }
 }
 
@@ -199,7 +199,7 @@ export async function updateCustomerAddress(
   input: Omit<CustomerAddress, "id" | "is_default_shipping">
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const token = await getSessionToken()
-  if (!token) return { ok: false, message: "Sesion expirada." }
+  if (!token) return { ok: false, message: "Sesión expirada." }
 
   const res = await fetch(
     `${MEDUSA_BACKEND_URL}/store/customers/me/addresses/${addressId}`,
@@ -210,7 +210,7 @@ export async function updateCustomerAddress(
     }
   )
 
-  if (!res.ok) return { ok: false, message: "No se pudo actualizar la direccion." }
+  if (!res.ok) return { ok: false, message: "No se pudo actualizar la dirección." }
   return { ok: true }
 }
 
@@ -218,14 +218,14 @@ export async function deleteCustomerAddress(
   addressId: string
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const token = await getSessionToken()
-  if (!token) return { ok: false, message: "Sesion expirada." }
+  if (!token) return { ok: false, message: "Sesión expirada." }
 
   const res = await fetch(
     `${MEDUSA_BACKEND_URL}/store/customers/me/addresses/${addressId}`,
     { method: "DELETE", headers: authHeaders(token) }
   )
 
-  if (!res.ok) return { ok: false, message: "No se pudo eliminar la direccion." }
+  if (!res.ok) return { ok: false, message: "No se pudo eliminar la dirección." }
   return { ok: true }
 }
 

@@ -19,16 +19,16 @@ export default function WishlistPage() {
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-24 text-center">
           <Heart className="size-8 text-muted-foreground" />
-          <p className="font-heading text-lg">Aun no tienes favoritos</p>
+          <p className="font-heading text-lg">Aún no tienes favoritos</p>
           <p className="max-w-sm text-sm text-muted-foreground">
-            Guarda las piezas que te interesen desde el catalogo tocando el
-            corazon en cada producto.
+            Guarda las piezas que te interesen desde el catálogo tocando el
+            corazón en cada producto.
           </p>
           <Link
             href="/"
             className="mt-2 rounded-full border border-border px-5 py-2 text-sm transition-colors hover:border-foreground"
           >
-            Ver catalogo
+            Ver catálogo
           </Link>
         </div>
       ) : (

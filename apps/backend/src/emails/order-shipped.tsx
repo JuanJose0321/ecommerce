@@ -8,8 +8,8 @@ export function OrderShippedEmail({ displayId }: { displayId: number }) {
       heading="Tu pedido va en camino"
     >
       <Text>
-        Tu orden <strong>#{displayId}</strong> ya salio de nuestro almacen y
-        esta en camino.
+        Tu orden <strong>#{displayId}</strong> ya salió de nuestro almacén y
+        está en camino.
       </Text>
     </EmailLayout>
   )

@@ -31,14 +31,14 @@ type ProductSeed = {
   priceUsd: number
 }
 
-const CATEGORIES = ["Relojes", "Joyeria", "Moda", "Tecnologia"] as const
+const CATEGORIES = ["Relojes", "Joyería", "Moda", "Tecnología"] as const
 
 const PRODUCTS: ProductSeed[] = [
   {
     title: "Reloj de Bolsillo Heritage",
     category: "Relojes",
     description:
-      "Reloj de bolsillo de manufactura clasica, caja grabada a mano y movimiento mecanico de cuerda. Una pieza de coleccion para quien valora la relojeria tradicional.",
+      "Reloj de bolsillo de manufactura clásica, caja grabada a mano y movimiento mecánico de cuerda. Una pieza de colección para quien valora la relojería tradicional.",
     handle: "reloj-bolsillo-heritage",
     image:
       "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?w=1200&q=80",
@@ -53,7 +53,7 @@ const PRODUCTS: ProductSeed[] = [
     title: "Reloj Solstice Field",
     category: "Relojes",
     description:
-      "Reloj de campo minimalista con esfera mate y correa de piel curtida vegetal. Diseñado para el uso diario sin sacrificar precision suiza.",
+      "Reloj de campo minimalista con esfera mate y correa de piel curtida vegetal. Diseñado para el uso diario sin sacrificar precisión suiza.",
     handle: "reloj-solstice-field",
     image:
       "https://images.unsplash.com/photo-1495856458515-0637185db551?w=1200&q=80",
@@ -81,9 +81,9 @@ const PRODUCTS: ProductSeed[] = [
   },
   {
     title: "Brazalete Infinity Rose",
-    category: "Joyeria",
+    category: "Joyería",
     description:
-      "Brazalete de oro rosa con pave de diamantes en patron infinito. Engastado a mano por maestros joyeros.",
+      "Brazalete de oro rosa con pave de diamantes en patrón infinito. Engastado a mano por maestros joyeros.",
     handle: "brazalete-infinity-rose",
     image:
       "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1200&q=80",
@@ -96,7 +96,7 @@ const PRODUCTS: ProductSeed[] = [
   },
   {
     title: "Collar de Perlas Cascade",
-    category: "Joyeria",
+    category: "Joyería",
     description:
       "Collar de perlas cultivadas de agua dulce con broche de plata de ley. Presentado en estuche de terciopelo.",
     handle: "collar-perlas-cascade",
@@ -111,7 +111,7 @@ const PRODUCTS: ProductSeed[] = [
   },
   {
     title: "Colgante Dueto Celeste",
-    category: "Joyeria",
+    category: "Joyería",
     description:
       "Colgante doble con piedra facetada azul y luna creciente incrustada de circonias. Cadena de oro de 14k ajustable.",
     handle: "colgante-dueto-celeste",
@@ -128,7 +128,7 @@ const PRODUCTS: ProductSeed[] = [
     title: "Abrigo Bomber Camel",
     category: "Moda",
     description:
-      "Abrigo bomber en piel vuelta color camel, forro interior acolchado y herrajes metalicos mate.",
+      "Abrigo bomber en piel vuelta color camel, forro interior acolchado y herrajes metálicos mate.",
     handle: "abrigo-bomber-camel",
     image:
       "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=1200&q=80",
@@ -143,7 +143,7 @@ const PRODUCTS: ProductSeed[] = [
     title: "Vestido Midi Bordeaux",
     category: "Moda",
     description:
-      "Vestido midi en gabardina de algodon con botonadura frontal en madreperla. Silueta entallada con falda en A.",
+      "Vestido midi en gabardina de algodón con botonadura frontal en madreperla. Silueta entallada con falda en A.",
     handle: "vestido-midi-bordeaux",
     image:
       "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=1200&q=80",
@@ -171,27 +171,27 @@ const PRODUCTS: ProductSeed[] = [
   },
   {
     title: "Auriculares Aria Pro",
-    category: "Tecnologia",
+    category: "Tecnología",
     description:
-      "Auriculares premium con cancelacion activa de ruido, drivers de titanio y carcasa de aluminio anodizado.",
+      "Auriculares premium con cancelación activa de ruido, drivers de titanio y carcasa de aluminio anodizado.",
     handle: "auriculares-aria-pro",
     image:
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80",
     axes: [
       { title: "Color", values: ["Grafito", "Champan"] },
-      { title: "Edicion", values: ["Estandar", "Titanio"] },
+      { title: "Edición", values: ["Estándar", "Titanio"] },
     ],
     priceMxn: 9800,
     priceUsd: 540,
   },
   {
     title: "Reloj Inteligente Horizon",
-    category: "Tecnologia",
+    category: "Tecnología",
     description:
       "Smartwatch de lujo con caja de titanio cepillado, cristal de zafiro y correa intercambiable. Monitoreo de salud y GPS integrado.",
     handle: "reloj-inteligente-horizon",
     image:
-      "https://images.unsplash.com/photo-1533139502658-0198f920d8e9?w=1200&q=80",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80",
     axes: [
       { title: "Material", values: ["Titanio", "Acero"] },
       { title: "Correa", values: ["Piel", "Milanesa"] },
@@ -200,16 +200,16 @@ const PRODUCTS: ProductSeed[] = [
     priceUsd: 745,
   },
   {
-    title: "Camara Instant Atelier",
-    category: "Tecnologia",
+    title: "Cámara Instant Atelier",
+    category: "Tecnología",
     description:
-      "Camara instantanea de edicion limitada con cuerpo en aluminio cepillado y lente de vidrio multicapa.",
+      "Cámara instantánea de edición limitada con cuerpo en aluminio cepillado y lente de vidrio multicapa.",
     handle: "camara-instant-atelier",
     image:
       "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=1200&q=80",
     axes: [
       { title: "Color", values: ["Negro Onix", "Blanco Perla"] },
-      { title: "Edicion", values: ["Estandar", "Coleccionista"] },
+      { title: "Edición", values: ["Estándar", "Coleccionista"] },
     ],
     priceMxn: 6900,
     priceUsd: 380,
@@ -237,7 +237,7 @@ export default async function seedLuxuryCatalog({
     input: {
       regions: [
         {
-          name: "Mexico",
+          name: "México",
           currency_code: "mxn",
           countries: ["mx"],
           payment_providers: ["pp_system_default"],
@@ -261,7 +261,7 @@ export default async function seedLuxuryCatalog({
         {
           name: "Bodega CDMX",
           address: {
-            city: "Ciudad de Mexico",
+            city: "Ciudad de México",
             country_code: "MX",
             address_1: "",
           },
@@ -283,11 +283,11 @@ export default async function seedLuxuryCatalog({
   const shippingProfile = shippingProfileResult[0]
 
   const fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
-    name: "Entrega Mexico",
+    name: "Entrega México",
     type: "shipping",
     service_zones: [
       {
-        name: "Mexico",
+        name: "México",
         geo_zones: [{ country_code: "mx", type: "country" }],
       },
     ],
@@ -301,14 +301,14 @@ export default async function seedLuxuryCatalog({
   await createShippingOptionsWorkflow(container).run({
     input: [
       {
-        name: "Envio Estandar",
+        name: "Envío Estándar",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,
         shipping_profile_id: shippingProfile.id,
         type: {
-          label: "Estandar",
-          description: "Entrega en 3-5 dias habiles.",
+          label: "Estándar",
+          description: "Entrega en 3-5 días hábiles.",
           code: "standard",
         },
         prices: [
@@ -321,7 +321,7 @@ export default async function seedLuxuryCatalog({
         ],
       },
       {
-        name: "Envio Express",
+        name: "Envío Express",
         price_type: "flat",
         provider_id: "manual_manual",
         service_zone_id: fulfillmentSet.service_zones[0].id,

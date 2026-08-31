@@ -16,9 +16,9 @@ export default async function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className="space-y-2">
-        <h1 className="font-heading text-2xl">Mis ordenes</h1>
+        <h1 className="font-heading text-2xl">Mis órdenes</h1>
         <p className="text-sm text-muted-foreground">
-          Aun no has realizado ninguna compra.
+          Aún no has realizado ninguna compra.
         </p>
       </div>
     )

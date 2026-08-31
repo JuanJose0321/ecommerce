@@ -11,7 +11,7 @@ import { AnimatePresence } from "@/components/ui/form-banner"
 import { SubmitButton } from "@/components/ui/submit-button"
 import type { Cart } from "@/lib/cart"
 
-const NETWORK_ERROR_MESSAGE = "Error de red. Revisa tu conexion e intenta de nuevo."
+const NETWORK_ERROR_MESSAGE = "Error de red. Revisa tu conexión e intenta de nuevo."
 
 export function OrderSummary({
   cart,
@@ -37,7 +37,7 @@ export function OrderSummary({
         onCartUpdate(result.cart)
         setCode("")
         setStatus("idle")
-        toast.success("Cupon aplicado")
+        toast.success("Cupón aplicado")
       } else {
         setStatus("error")
         setError(result.message)
@@ -90,11 +90,11 @@ export function OrderSummary({
               {cart.promotions.map((p) =>
                 p.code ? (
                   <li key={p.code} className="flex items-center justify-between text-sm">
-                    <span>Cupon {p.code}</span>
+                    <span>Cupón {p.code}</span>
                     <button
                       type="button"
                       onClick={() => handleRemove(p.code!)}
-                      aria-label="Quitar cupon"
+                      aria-label="Quitar cupón"
                       className="text-muted-foreground hover:text-foreground"
                     >
                       <X className="size-3.5" />
@@ -108,8 +108,8 @@ export function OrderSummary({
             <input
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Codigo de descuento"
-              aria-label="Codigo de descuento"
+              placeholder="Código de descuento"
+              aria-label="Código de descuento"
               className="flex-1 rounded-md border border-border bg-transparent px-3 py-2 text-sm text-foreground outline-none transition-colors duration-200 placeholder:text-muted-foreground/60 focus:border-foreground"
             />
             <SubmitButton
@@ -151,7 +151,7 @@ export function OrderSummary({
           </div>
         ) : null}
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Envio</span>
+          <span className="text-muted-foreground">Envío</span>
           <span>
             {cart.shipping_total > 0
               ? formatPrice(cart.shipping_total, cart.currency_code)

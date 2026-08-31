@@ -14,7 +14,7 @@ export function StarRatingInput({
   const display = hovered ?? value
 
   return (
-    <div className="flex gap-1" role="radiogroup" aria-label="Calificacion">
+    <div className="flex gap-1" role="radiogroup" aria-label="Calificación">
       {Array.from({ length: 5 }).map((_, i) => {
         const starValue = i + 1
         const filled = starValue <= display

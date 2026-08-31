@@ -10,8 +10,8 @@ test.beforeEach(({}, testInfo) => {
 test("the hamburger menu opens and lists categories", async ({ page }) => {
   await page.goto("/")
 
-  await page.getByRole("button", { name: "Abrir menu" }).click()
-  await expect(page.getByRole("link", { name: "Todo el catalogo" })).toBeVisible()
+  await page.getByRole("button", { name: "Abrir menú" }).click()
+  await expect(page.getByRole("link", { name: "Todo el catálogo" })).toBeVisible()
 })
 
 test("home page has no horizontal overflow at 375px", async ({ page }) => {

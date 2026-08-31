@@ -19,7 +19,7 @@ export default async function passwordResetHandler({
 
   await sendEmail({
     to: event.data.entity_id,
-    subject: "Restablece tu contrasena",
+    subject: "Restablece tu contraseña",
     react: PasswordResetEmail({ resetUrl }),
   })
 }

@@ -15,6 +15,6 @@ export function estimateShippingByPostalCode(postalCode: string): ShippingEstima
   const isCdmx = value >= CDMX_RANGE[0] && value <= CDMX_RANGE[1]
 
   return isCdmx
-    ? { zone: "CDMX", standardDays: "1-2 dias habiles", expressDays: "mismo dia o siguiente" }
-    : { zone: "Nacional", standardDays: "3-5 dias habiles", expressDays: "24-48 horas" }
+    ? { zone: "CDMX", standardDays: "1-2 días hábiles", expressDays: "mismo día o siguiente" }
+    : { zone: "Nacional", standardDays: "3-5 días hábiles", expressDays: "24-48 horas" }
 }

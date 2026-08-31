@@ -28,7 +28,7 @@ export function RegisterForm() {
 
   const validateEmail = () => {
     if (email && !EMAIL_PATTERN.test(email)) {
-      setEmailError("Ingresa un correo valido.")
+      setEmailError("Ingresa un correo válido.")
       return false
     }
     setEmailError(null)
@@ -37,7 +37,7 @@ export function RegisterForm() {
 
   const validatePassword = () => {
     if (password && password.length < MIN_PASSWORD_LENGTH) {
-      setPasswordError(`Minimo ${MIN_PASSWORD_LENGTH} caracteres.`)
+      setPasswordError(`Mínimo ${MIN_PASSWORD_LENGTH} caracteres.`)
       return false
     }
     setPasswordError(null)
@@ -107,7 +107,7 @@ export function RegisterForm() {
         error={emailError}
       />
       <FormField
-        label="Contrasena"
+        label="Contraseña"
         type={showPassword ? "text" : "password"}
         autoComplete="new-password"
         required
@@ -119,14 +119,14 @@ export function RegisterForm() {
         }}
         onBlur={validatePassword}
         error={passwordError}
-        hint={passwordError ? undefined : "Minimo 8 caracteres."}
+        hint={passwordError ? undefined : "Mínimo 8 caracteres."}
         endAdornment={
           <button
             type="button"
             tabIndex={-1}
             onClick={() => setShowPassword((v) => !v)}
             className="p-1 text-muted-foreground transition-colors hover:text-foreground"
-            aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
           >
             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
           </button>
@@ -149,7 +149,7 @@ export function RegisterForm() {
         <p className="text-center text-sm text-muted-foreground">
           Ya tienes cuenta?{" "}
           <Link href="/account/login" className="text-foreground underline underline-offset-4 transition-opacity hover:opacity-70">
-            Inicia sesion
+            Inicia sesión
           </Link>
         </p>
       </FormFade>

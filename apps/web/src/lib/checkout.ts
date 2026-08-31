@@ -7,7 +7,7 @@ const MEDUSA_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 
 function authHeaders() {
   if (!MEDUSA_PUBLISHABLE_KEY) {
-    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no esta configurada.")
+    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no está configurada.")
   }
   return {
     "x-publishable-api-key": MEDUSA_PUBLISHABLE_KEY,
@@ -135,7 +135,7 @@ export async function initiatePaymentSession(
     .find((s) => s.provider_id === providerId)
 
   if (!session?.data.client_secret) {
-    throw new Error("No se pudo iniciar la sesion de pago.")
+    throw new Error("No se pudo iniciar la sesión de pago.")
   }
 
   const { cart } = await medusaFetch<{ cart: Cart }>(`/store/carts/${cartId}`)

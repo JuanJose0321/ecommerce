@@ -34,13 +34,13 @@ function Hero() {
   return (
     <section className="flex flex-col items-center gap-4 py-20 text-center sm:py-28">
       <p className="text-xs tracking-[0.3em] text-muted-foreground uppercase">
-        Nueva coleccion
+        Nueva colección
       </p>
       <h1 className="font-heading max-w-2xl text-4xl leading-tight sm:text-6xl">
         Piezas atemporales, hechas para durar
       </h1>
       <p className="max-w-md text-sm text-muted-foreground sm:text-base">
-        Relojeria, joyeria, moda y tecnologia premium seleccionadas con un
+        Relojería, joyería, moda y tecnología premium seleccionadas con un
         mismo criterio: manufactura impecable.
       </p>
     </section>

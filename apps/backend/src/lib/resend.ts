@@ -25,13 +25,13 @@ export async function sendEmail({
   const resend = getClient()
   if (!resend) {
     console.warn(
-      `[resend] RESEND_API_KEY no configurada. Se omitio el envio de "${subject}" a ${to}.`
+      `[resend] RESEND_API_KEY no configurada. Se omitió el envío de "${subject}" a ${to}.`
     )
     return
   }
 
   const { error } = await resend.emails.send({ from: FROM, to, subject, react })
   if (error) {
-    console.error(`[resend] Fallo el envio de "${subject}" a ${to}:`, error)
+    console.error(`[resend] Falló el envío de "${subject}" a ${to}:`, error)
   }
 }

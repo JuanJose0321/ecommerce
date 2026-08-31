@@ -35,9 +35,9 @@ export function CartDrawer() {
             className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center"
           >
             <ShoppingBag className="size-8 text-muted-foreground" />
-            <p className="font-heading text-lg">Tu carrito esta vacio</p>
+            <p className="font-heading text-lg">Tu carrito está vacío</p>
             <p className="text-sm text-muted-foreground">
-              Explora el catalogo y encuentra tu proxima pieza favorita.
+              Explora el catálogo y encuentra tu próxima pieza favorita.
             </p>
           </motion.div>
         ) : (
@@ -131,7 +131,7 @@ export function CartDrawer() {
                 <span>{formatPrice(cart!.subtotal, cart!.currency_code)}</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Envio e impuestos se calculan en el checkout.
+                Envío e impuestos se calculan en el checkout.
               </p>
               <Link
                 href="/checkout"

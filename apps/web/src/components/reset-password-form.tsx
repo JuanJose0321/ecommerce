@@ -24,8 +24,8 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
     return (
       <FormFade>
         <FormBanner type="error">
-          Este enlace no es valido. Solicita uno nuevo desde la pagina de
-          recuperacion.
+          Este enlace no es válido. Solicita uno nuevo desde la página de
+          recuperación.
         </FormBanner>
       </FormFade>
     )
@@ -33,7 +33,7 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
 
   const validatePassword = () => {
     if (password && password.length < MIN_PASSWORD_LENGTH) {
-      setPasswordError(`Minimo ${MIN_PASSWORD_LENGTH} caracteres.`)
+      setPasswordError(`Mínimo ${MIN_PASSWORD_LENGTH} caracteres.`)
       return false
     }
     setPasswordError(null)
@@ -63,7 +63,7 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
   if (status === "success") {
     return (
       <FormFade className="mx-auto max-w-sm">
-        <FormBanner type="success">Contrasena actualizada. Redirigiendo...</FormBanner>
+        <FormBanner type="success">Contraseña actualizada. Redirigiendo...</FormBanner>
       </FormFade>
     )
   }
@@ -71,7 +71,7 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
   return (
     <AnimatedForm onSubmit={handleSubmit} className="mx-auto max-w-sm space-y-6">
       <FormField
-        label="Nueva contrasena"
+        label="Nueva contraseña"
         type={showPassword ? "text" : "password"}
         autoComplete="new-password"
         required
@@ -83,14 +83,14 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
         }}
         onBlur={validatePassword}
         error={passwordError}
-        hint={passwordError ? undefined : "Minimo 8 caracteres."}
+        hint={passwordError ? undefined : "Mínimo 8 caracteres."}
         endAdornment={
           <button
             type="button"
             tabIndex={-1}
             onClick={() => setShowPassword((v) => !v)}
             className="p-1 text-muted-foreground transition-colors hover:text-foreground"
-            aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
           >
             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
           </button>
@@ -106,7 +106,7 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
       </AnimatePresence>
 
       <SubmitButton loading={status === "submitting"} loadingText="Guardando...">
-        Restablecer contrasena
+        Restablecer contraseña
       </SubmitButton>
     </AnimatedForm>
   )

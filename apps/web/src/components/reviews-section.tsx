@@ -40,7 +40,7 @@ export function ReviewsSection({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (rating === 0) {
-      setRatingError("Selecciona una calificacion.")
+      setRatingError("Selecciona una calificación.")
       return
     }
     setRatingError(null)
@@ -119,7 +119,7 @@ export function ReviewsSection({
             />
             <div className="space-y-1.5">
               <label className="block text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
-                Calificacion
+                Calificación
               </label>
               <StarRatingInput
                 value={rating}

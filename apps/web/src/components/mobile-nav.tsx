@@ -18,7 +18,7 @@ export function MobileNav({ categories }: { categories: MedusaCategory[] }) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
-        aria-label="Abrir menu"
+        aria-label="Abrir menú"
         className="flex items-center justify-center rounded-full p-2 transition-[background-color,transform] duration-200 hover:bg-muted active:scale-90 lg:hidden"
       >
         <Menu className="size-5" />
@@ -35,7 +35,7 @@ export function MobileNav({ categories }: { categories: MedusaCategory[] }) {
             onClick={() => setOpen(false)}
             className="rounded-md px-2 py-2.5 text-sm transition-colors hover:bg-muted"
           >
-            Todo el catalogo
+            Todo el catálogo
           </Link>
           {categories.map((cat) => (
             <Link

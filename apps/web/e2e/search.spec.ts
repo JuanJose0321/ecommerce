@@ -4,7 +4,7 @@ test("searching for a product navigates to its product page", async ({ page }) =
   await page.goto("/")
 
   await page.getByRole("button", { name: "Buscar productos" }).click()
-  await page.getByPlaceholder("Buscar relojes, joyeria, moda...").fill("Heritage")
+  await page.getByPlaceholder("Buscar relojes, joyería, moda...").fill("Heritage")
 
   const result = page.getByRole("listbox").getByText("Reloj de Bolsillo Heritage")
   await expect(result).toBeVisible()

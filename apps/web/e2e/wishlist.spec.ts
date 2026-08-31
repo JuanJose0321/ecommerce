@@ -20,5 +20,5 @@ test("saving a product to the wishlist makes it appear on /wishlist", async ({ p
   await expect(page.getByRole("heading", { name: title!.trim(), level: 3 })).toBeVisible()
 
   await page.getByRole("button", { name: "Quitar de favoritos" }).click()
-  await expect(page.getByText("Aun no tienes favoritos")).toBeVisible()
+  await expect(page.getByText("Aún no tienes favoritos")).toBeVisible()
 })

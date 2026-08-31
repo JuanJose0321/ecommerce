@@ -24,7 +24,7 @@ export async function loginAction(
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const parsed = LoginSchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, message: "Revisa tu correo y contrasena." }
+    return { ok: false, message: "Revisa tu correo y contraseña." }
   }
 
   const key = `login:${await getRequestKey()}`
@@ -39,7 +39,7 @@ export async function loginAction(
 
 const RegisterSchema = z.object({
   email: z.string().trim().email(),
-  password: z.string().min(8, "La contrasena debe tener al menos 8 caracteres."),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres."),
   firstName: z.string().trim().min(1, "Tu nombre es requerido."),
   lastName: z.string().trim().min(1, "Tu apellido es requerido."),
 })
@@ -51,7 +51,7 @@ export async function registerAction(
   if (!parsed.success) {
     return {
       ok: false,
-      message: parsed.error.issues[0]?.message ?? "Datos invalidos.",
+      message: parsed.error.issues[0]?.message ?? "Datos inválidos.",
     }
   }
 
@@ -89,7 +89,7 @@ export async function forgotPasswordAction(
 
 const ResetPasswordSchema = z.object({
   token: z.string().min(1),
-  password: z.string().min(8, "La contrasena debe tener al menos 8 caracteres."),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres."),
 })
 
 export async function resetPasswordAction(
@@ -99,7 +99,7 @@ export async function resetPasswordAction(
   if (!parsed.success) {
     return {
       ok: false,
-      message: parsed.error.issues[0]?.message ?? "Datos invalidos.",
+      message: parsed.error.issues[0]?.message ?? "Datos inválidos.",
     }
   }
 
@@ -128,7 +128,7 @@ export async function addAddressAction(
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const parsed = AddressSchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, message: "Revisa los datos de la direccion." }
+    return { ok: false, message: "Revisa los datos de la dirección." }
   }
 
   const result = await addCustomerAddress(parsed.data)
@@ -142,7 +142,7 @@ export async function updateAddressAction(
 ): Promise<{ ok: true } | { ok: false; message: string }> {
   const parsed = AddressSchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, message: "Revisa los datos de la direccion." }
+    return { ok: false, message: "Revisa los datos de la dirección." }
   }
 
   const result = await updateCustomerAddress(addressId, parsed.data)

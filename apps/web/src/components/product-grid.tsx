@@ -15,7 +15,7 @@ export function ProductGrid({ products }: { products: CatalogProduct[] }) {
         <p className="font-heading text-2xl">Sin resultados</p>
         <p className="max-w-sm text-sm text-muted-foreground">
           No encontramos piezas que coincidan con estos filtros. Intenta
-          ajustar el rango de precio o quitar alguna categoria.
+          ajustar el rango de precio o quitar alguna categoría.
         </p>
       </motion.div>
     )

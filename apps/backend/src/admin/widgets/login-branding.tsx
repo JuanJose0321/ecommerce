@@ -12,7 +12,7 @@ const LoginBrandingWidget = () => {
         Maison Luxe
       </Text>
       <Text size="small" className="text-ui-fg-subtle tracking-widest uppercase">
-        Panel de administracion
+        Panel de administración
       </Text>
     </div>
   )

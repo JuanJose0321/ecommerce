@@ -24,7 +24,7 @@ export function LoginForm() {
 
   const validateEmail = () => {
     if (email && !EMAIL_PATTERN.test(email)) {
-      setEmailError("Ingresa un correo valido.")
+      setEmailError("Ingresa un correo válido.")
       return false
     }
     setEmailError(null)
@@ -65,7 +65,7 @@ export function LoginForm() {
         error={emailError}
       />
       <FormField
-        label="Contrasena"
+        label="Contraseña"
         type={showPassword ? "text" : "password"}
         autoComplete="current-password"
         required
@@ -77,7 +77,7 @@ export function LoginForm() {
             tabIndex={-1}
             onClick={() => setShowPassword((v) => !v)}
             className="p-1 text-muted-foreground transition-colors hover:text-foreground"
-            aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
           >
             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
           </button>
@@ -93,13 +93,13 @@ export function LoginForm() {
       </AnimatePresence>
 
       <SubmitButton loading={status === "submitting"} loadingText="Entrando...">
-        Iniciar sesion
+        Iniciar sesión
       </SubmitButton>
 
       <FormFade className="space-y-2">
         <p className="text-center text-sm text-muted-foreground">
           <Link href="/account/forgot-password" className="text-foreground underline underline-offset-4 transition-opacity hover:opacity-70">
-            Olvidaste tu contrasena?
+            Olvidaste tu contraseña?
           </Link>
         </p>
         <p className="text-center text-sm text-muted-foreground">

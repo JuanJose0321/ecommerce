@@ -52,7 +52,7 @@ export type Cart = {
 
 function authHeaders() {
   if (!MEDUSA_PUBLISHABLE_KEY) {
-    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no esta configurada.")
+    throw new Error("NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no está configurada.")
   }
   return {
     "x-publishable-api-key": MEDUSA_PUBLISHABLE_KEY,

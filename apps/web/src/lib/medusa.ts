@@ -86,7 +86,7 @@ async function medusaFetch<T>(
 ): Promise<T> {
   if (!MEDUSA_PUBLISHABLE_KEY) {
     throw new Error(
-      "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no esta configurada. Revisa apps/web/.env.local."
+      "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY no está configurada. Revisa apps/web/.env.local."
     )
   }
 

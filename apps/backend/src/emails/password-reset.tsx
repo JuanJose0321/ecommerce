@@ -4,12 +4,12 @@ import { EmailLayout } from "./components/email-layout"
 export function PasswordResetEmail({ resetUrl }: { resetUrl: string }) {
   return (
     <EmailLayout
-      preview="Restablece tu contrasena"
-      heading="Restablece tu contrasena"
+      preview="Restablece tu contraseña"
+      heading="Restablece tu contraseña"
     >
       <Text>
-        Recibimos una solicitud para restablecer tu contrasena. Este enlace
-        expira en 15 minutos. Si tu no lo pediste, ignora este correo.
+        Recibimos una solicitud para restablecer tu contraseña. Este enlace
+        expira en 15 minutos. Si tú no lo pediste, ignora este correo.
       </Text>
       <Button
         href={resetUrl}
@@ -24,7 +24,7 @@ export function PasswordResetEmail({ resetUrl }: { resetUrl: string }) {
           marginTop: "16px",
         }}
       >
-        Restablecer contrasena
+        Restablecer contraseña
       </Button>
     </EmailLayout>
   )

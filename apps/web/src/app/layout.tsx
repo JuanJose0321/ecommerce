@@ -33,7 +33,7 @@ const fontClassName = `${geistSans.variable} ${geistMono.variable} ${cormorant.v
 export const metadata: Metadata = {
   title: "Maison Luxe",
   description:
-    "Storefront headless de lujo: relojeria, joyeria, moda y tecnologia premium.",
+    "Storefront headless de lujo: relojería, joyería, moda y tecnología premium.",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {

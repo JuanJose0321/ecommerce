@@ -18,7 +18,7 @@ export async function addToCartAction(
 ): Promise<{ ok: true; cart: Cart } | { ok: false; message: string }> {
   const parsed = AddToCartSchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, message: "Datos de producto invalidos." }
+    return { ok: false, message: "Datos de producto inválidos." }
   }
 
   try {
@@ -26,9 +26,9 @@ export async function addToCartAction(
     return { ok: true, cart }
   } catch (err) {
     if ((err as Error & { code?: string }).code === "insufficient_inventory") {
-      return { ok: false, message: "Ese producto se agoto justo ahora." }
+      return { ok: false, message: "Ese producto se agotó justo ahora." }
     }
-    return { ok: false, message: "No se pudo anadir el producto al carrito." }
+    return { ok: false, message: "No se pudo añadir el producto al carrito." }
   }
 }
 
@@ -42,7 +42,7 @@ export async function updateCartItemAction(
 ): Promise<{ ok: true; cart: Cart } | { ok: false; message: string }> {
   const parsed = UpdateQuantitySchema.safeParse(input)
   if (!parsed.success) {
-    return { ok: false, message: "Cantidad invalida." }
+    return { ok: false, message: "Cantidad inválida." }
   }
 
   try {
@@ -60,7 +60,7 @@ export async function removeCartItemAction(
   lineItemId: string
 ): Promise<{ ok: true; cart: Cart } | { ok: false; message: string }> {
   if (!lineItemId) {
-    return { ok: false, message: "Producto invalido." }
+    return { ok: false, message: "Producto inválido." }
   }
 
   try {

@@ -55,7 +55,7 @@ export function ProductMedia({
         ) : mode === "3d" && showFallback ? (
           <div className="flex h-full w-full flex-col items-center justify-center gap-3 px-6 text-center">
             <p className="text-sm text-muted-foreground">
-              Tu dispositivo no soporta vista 3D (WebGL). Mostrando la galeria de
+              Tu dispositivo no soporta vista 3D (WebGL). Mostrando la galería de
               fotos en su lugar.
             </p>
             <button

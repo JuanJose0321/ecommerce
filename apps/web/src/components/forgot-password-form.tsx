@@ -18,7 +18,7 @@ export function ForgotPasswordForm() {
 
   const validateEmail = () => {
     if (email && !EMAIL_PATTERN.test(email)) {
-      setEmailError("Ingresa un correo valido.")
+      setEmailError("Ingresa un correo válido.")
       return false
     }
     setEmailError(null)
@@ -41,10 +41,10 @@ export function ForgotPasswordForm() {
           <p className="font-heading text-lg">Revisa tu correo</p>
           <p className="text-sm text-muted-foreground">
             Si existe una cuenta con ese correo, te enviamos un enlace para
-            restablecer tu contrasena. Expira en 15 minutos.
+            restablecer tu contraseña. Expira en 15 minutos.
           </p>
           <Link href="/account/login" className="text-sm text-foreground underline underline-offset-4 transition-opacity hover:opacity-70">
-            Volver a inicio de sesion
+            Volver a inicio de sesión
           </Link>
         </FormFade>
       ) : (

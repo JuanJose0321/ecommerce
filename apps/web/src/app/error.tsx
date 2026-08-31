@@ -19,9 +19,9 @@ export default function GlobalError({
       <p className="text-xs tracking-[0.3em] text-muted-foreground uppercase">
         Error
       </p>
-      <h1 className="font-heading text-3xl sm:text-4xl">Algo salio mal</h1>
+      <h1 className="font-heading text-3xl sm:text-4xl">Algo salió mal</h1>
       <p className="max-w-sm text-sm text-muted-foreground">
-        No pudimos completar esta accion. Intenta de nuevo o vuelve al inicio.
+        No pudimos completar esta acción. Intenta de nuevo o vuelve al inicio.
         {error.digest ? (
           <span className="mt-2 block text-xs">Referencia: {error.digest}</span>
         ) : null}

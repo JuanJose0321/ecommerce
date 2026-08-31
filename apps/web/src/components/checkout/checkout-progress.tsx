@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
-const STEPS = ["Envio", "Pago", "Confirmacion"] as const
+const STEPS = ["Envío", "Pago", "Confirmación"] as const
 
 export function CheckoutProgress({ current }: { current: 0 | 1 | 2 }) {
   return (

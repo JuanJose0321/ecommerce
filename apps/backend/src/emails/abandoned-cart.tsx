@@ -8,7 +8,7 @@ export function AbandonedCartEmail({ checkoutUrl }: { checkoutUrl: string }) {
       heading="Tus piezas te esperan"
     >
       <Text>
-        Dejaste articulos en tu carrito. Sigue disponibles, pero el stock es
+        Dejaste artículos en tu carrito. Sigue disponibles, pero el stock es
         limitado.
       </Text>
       <Button

@@ -32,7 +32,7 @@ export function AnnouncementBanner() {
   return (
     <div className="relative flex items-center justify-center gap-2 bg-foreground px-10 py-2 text-center text-xs text-background">
       <span>
-        10% de descuento en tu primera compra con el codigo{" "}
+        10% de descuento en tu primera compra con el código{" "}
         <strong className="font-medium">BIENVENIDA10</strong>
       </span>
       <button

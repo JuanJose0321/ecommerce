@@ -19,14 +19,14 @@ export default async function AccountDashboardLayout({
       <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr]">
         <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-1">
           <AccountNavLink href="/account">Resumen</AccountNavLink>
-          <AccountNavLink href="/account/orders">Mis ordenes</AccountNavLink>
+          <AccountNavLink href="/account/orders">Mis órdenes</AccountNavLink>
           <AccountNavLink href="/account/addresses">Direcciones</AccountNavLink>
           <form action={logoutAction}>
             <button
               type="submit"
               className="w-full rounded-md px-3 py-2 text-left text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
-              Cerrar sesion
+              Cerrar sesión
             </button>
           </form>
         </nav>

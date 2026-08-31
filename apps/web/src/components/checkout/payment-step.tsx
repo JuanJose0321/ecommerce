@@ -78,7 +78,7 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
       </div>
       {!oxxoAvailable ? (
         <p className="text-xs text-muted-foreground">
-          OXXO no esta disponible para compras mayores a {formatPrice(OXXO_LIMIT_MXN, "mxn")}.
+          OXXO no está disponible para compras mayores a {formatPrice(OXXO_LIMIT_MXN, "mxn")}.
         </p>
       ) : null}
 
@@ -116,7 +116,7 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
         onClick={onBack}
         className="text-sm text-muted-foreground underline underline-offset-4 transition-colors duration-200 hover:text-foreground"
       >
-        Volver a envio
+        Volver a envío
       </button>
     </FormFade>
   )
@@ -208,7 +208,7 @@ function StripeCheckoutForm({
       if (confirmError) {
         const message =
           confirmError.message ??
-          "Tu pago fue rechazado. Verifica los datos o intenta con otro metodo."
+          "Tu pago fue rechazado. Verifica los datos o intenta con otro método."
         setError(message)
         toast.error(message)
         setSubmitting(false)
@@ -244,7 +244,7 @@ function StripeCheckoutForm({
         router.push(`/checkout/confirmacion/${result.order.id}`)
       }, 600)
     } catch {
-      const message = "Error de red. Revisa tu conexion e intenta de nuevo."
+      const message = "Error de red. Revisa tu conexión e intenta de nuevo."
       setError(message)
       toast.error(message)
       setSubmitting(false)
@@ -262,7 +262,7 @@ function StripeCheckoutForm({
   if (voucherUrl) {
     return (
       <FormFade className="space-y-4 rounded-lg border border-border p-6 text-center">
-        <p className="font-heading text-lg">Tu voucher OXXO esta listo</p>
+        <p className="font-heading text-lg">Tu voucher OXXO está listo</p>
         <p className="text-sm text-muted-foreground">
           Paga en cualquier tienda OXXO antes de que expire. En cuanto se
           registre el pago, confirmaremos tu orden por correo.
@@ -300,7 +300,7 @@ function StripeCheckoutForm({
               onClick={onBack}
               className="text-sm text-destructive underline underline-offset-4"
             >
-              Intentar con otro metodo de pago
+              Intentar con otro método de pago
             </button>
           </motion.div>
         ) : null}

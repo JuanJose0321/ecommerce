@@ -100,18 +100,18 @@ export function SearchDialog() {
           if (!next) setQuery("")
         }}
         title="Buscar productos"
-        description="Busca por nombre entre relojes, joyeria, moda y tecnologia."
+        description="Busca por nombre entre relojes, joyería, moda y tecnología."
       >
         <Command shouldFilter={false}>
           <CommandInput
-            placeholder="Buscar relojes, joyeria, moda..."
+            placeholder="Buscar relojes, joyería, moda..."
             value={query}
             onValueChange={setQuery}
           />
           <CommandList>
             {products === null ? (
               <div className="py-6 text-center text-sm text-muted-foreground">
-                Cargando catalogo...
+                Cargando catálogo...
               </div>
             ) : (
               <>
