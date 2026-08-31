@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import Image from "next/image"
+import { AnimatePresence, motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import type { MedusaImage } from "@/lib/medusa"
@@ -120,7 +121,7 @@ export function ProductLightbox({
           className={`relative h-full w-full ${zoomed ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"}`}
         >
           <div
-            className="h-full w-full transition-transform duration-300 ease-out"
+            className="relative h-full w-full transition-transform duration-300 ease-out"
             style={{
               transform: zoomed
                 ? `translate(${pan.x}px, ${pan.y}px) scale(${ZOOM_SCALE})`
@@ -128,14 +129,25 @@ export function ProductLightbox({
               transformOrigin: origin,
             }}
           >
-            <Image
-              src={images[index].url}
-              alt={`${title} - imagen ${index + 1}`}
-              fill
-              sizes="95vw"
-              className="object-contain"
-              priority
-            />
+            <AnimatePresence mode="sync" initial={false}>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={images[index].url}
+                  alt={`${title} - imagen ${index + 1}`}
+                  fill
+                  sizes="95vw"
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 

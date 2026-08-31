@@ -19,7 +19,7 @@ export function MobileNav({ categories }: { categories: MedusaCategory[] }) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="Abrir menu"
-        className="flex items-center justify-center rounded-full p-2 transition-colors hover:bg-muted lg:hidden"
+        className="flex items-center justify-center rounded-full p-2 transition-[background-color,transform] duration-200 hover:bg-muted active:scale-90 lg:hidden"
       >
         <Menu className="size-5" />
       </SheetTrigger>

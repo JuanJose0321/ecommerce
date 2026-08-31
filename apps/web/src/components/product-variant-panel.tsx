@@ -1,6 +1,8 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { Check } from "lucide-react"
+import { motion } from "framer-motion"
 import { formatPrice } from "@/lib/format"
 import {
   getProductPriceRange,
@@ -10,6 +12,9 @@ import {
 import type { MedusaProduct } from "@/lib/medusa"
 import { useCart } from "@/components/cart-provider"
 import { WishlistButton } from "@/components/wishlist-button"
+import { SubmitButton } from "@/components/ui/submit-button"
+
+const SUCCESS_FLASH_MS = 1600
 
 const LOW_STOCK_THRESHOLD = 5
 
@@ -25,7 +30,7 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
     }
     return initial
   })
-  const [status, setStatus] = useState<"idle" | "adding">("idle")
+  const [status, setStatus] = useState<"idle" | "adding" | "added">("idle")
 
   const matchedVariant = useMemo(() => {
     return product.variants?.find((v) => variantMatchesSelection(v, options, selected))
@@ -38,11 +43,17 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
   const outOfStock = matchedVariant ? availableQuantity <= 0 : false
   const { min, currency } = getProductPriceRange(product)
 
+  useEffect(() => {
+    if (status !== "added") return
+    const timeout = setTimeout(() => setStatus("idle"), SUCCESS_FLASH_MS)
+    return () => clearTimeout(timeout)
+  }, [status])
+
   const handleAddToCart = async () => {
     if (!matchedVariant) return
     setStatus("adding")
-    await addItem(matchedVariant.id, 1)
-    setStatus("idle")
+    const result = await addItem(matchedVariant.id, 1)
+    setStatus(result.ok ? "added" : "idle")
   }
 
   return (
@@ -60,21 +71,23 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
             {option.values?.map((value) => {
               const isActive = selected[option.title] === value.value
               return (
-                <button
+                <motion.button
                   key={value.value}
                   type="button"
                   aria-pressed={isActive}
                   onClick={() =>
                     setSelected((prev) => ({ ...prev, [option.title]: value.value }))
                   }
-                  className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                  whileTap={{ scale: 0.94 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className={`rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 ${
                     isActive
                       ? "border-foreground bg-foreground text-background"
                       : "border-border text-foreground hover:border-foreground"
                   }`}
                 >
                   {value.value}
-                </button>
+                </motion.button>
               )
             })}
           </div>
@@ -84,18 +97,31 @@ export function ProductVariantPanel({ product }: { product: MedusaProduct }) {
       <StockBadge outOfStock={outOfStock} quantity={availableQuantity} />
 
       <div className="space-y-3">
-        <button
+        <SubmitButton
           type="button"
-          disabled={outOfStock || status === "adding"}
+          disabled={outOfStock}
+          loading={status === "adding"}
+          loadingText="Anadiendo..."
           onClick={handleAddToCart}
-          className="w-full rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="py-3.5"
         >
-          {outOfStock
-            ? "Agotado"
-            : status === "adding"
-              ? "Anadiendo..."
-              : "Anadir al carrito"}
-        </button>
+          {outOfStock ? (
+            "Agotado"
+          ) : status === "added" ? (
+            <motion.span
+              key="added"
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="flex items-center gap-2"
+            >
+              <Check className="size-4" aria-hidden />
+              Anadido al carrito
+            </motion.span>
+          ) : (
+            "Anadir al carrito"
+          )}
+        </SubmitButton>
         <div className="flex justify-center">
           <WishlistButton
             variant="inline"

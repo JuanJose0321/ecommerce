@@ -2,6 +2,8 @@
 
 import { useCallback, useMemo, useState, useTransition } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { Check } from "lucide-react"
+import { motion } from "framer-motion"
 import {
   Select,
   SelectContent,
@@ -11,7 +13,7 @@ import {
 } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { formatPrice } from "@/lib/format"
-import { colorToHex } from "@/lib/colors"
+import { colorToHex, isLightColor } from "@/lib/colors"
 import type { MedusaCategory } from "@/lib/medusa"
 
 type Props = {
@@ -129,22 +131,36 @@ export function CatalogFilters({
               Color
             </p>
             <div className="flex flex-wrap gap-2">
-              {colors.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() => toggleValue("color", color, activeColor)}
-                  title={color}
-                  aria-pressed={activeColor === color}
-                  aria-label={`Color ${color}`}
-                  className={`h-7 w-7 rounded-full border transition-shadow ${
-                    activeColor === color
-                      ? "ring-2 ring-foreground ring-offset-2 ring-offset-background"
-                      : "border-border"
-                  }`}
-                  style={{ backgroundColor: colorToHex(color) }}
-                />
-              ))}
+              {colors.map((color) => {
+                const active = activeColor === color
+                const isLight = isLightColor(color)
+                return (
+                  <motion.button
+                    key={color}
+                    type="button"
+                    onClick={() => toggleValue("color", color, activeColor)}
+                    title={color}
+                    aria-pressed={active}
+                    aria-label={`Color ${color}`}
+                    whileTap={{ scale: 0.88 }}
+                    animate={{ scale: active ? 1.08 : 1 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className={`relative flex h-7 w-7 items-center justify-center rounded-full border transition-shadow duration-200 ${
+                      active
+                        ? "ring-2 ring-foreground ring-offset-2 ring-offset-background"
+                        : "border-border"
+                    }`}
+                    style={{ backgroundColor: colorToHex(color) }}
+                  >
+                    {active ? (
+                      <Check
+                        className={`size-3.5 ${isLight ? "text-foreground" : "text-white"}`}
+                        aria-hidden
+                      />
+                    ) : null}
+                  </motion.button>
+                )
+              })}
             </div>
           </div>
         ) : null}
@@ -170,7 +186,7 @@ export function CatalogFilters({
         ) : null}
 
         <div className="min-w-56 space-y-3">
-          <p className="text-xs tracking-wide text-muted-foreground uppercase">
+          <p className="text-xs tracking-wide text-muted-foreground uppercase tabular-nums">
             Precio: {priceLabel}
           </p>
           <Slider
@@ -203,17 +219,19 @@ function FilterPill({
   onClick: () => void
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+      whileTap={{ scale: 0.94 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
+      className={`rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 ${
         active
           ? "border-foreground bg-foreground text-background"
           : "border-border text-foreground hover:border-foreground"
       }`}
     >
       {label}
-    </button>
+    </motion.button>
   )
 }

@@ -9,7 +9,6 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js"
 import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 
 import { getStripe } from "@/lib/stripe-client"
@@ -18,6 +17,7 @@ import { formatPrice } from "@/lib/format"
 import { AnimatedForm, FormFade } from "@/components/ui/animated-form"
 import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
 import { SubmitButton } from "@/components/ui/submit-button"
+import { Skeleton } from "@/components/ui/skeleton"
 import type { Cart } from "@/lib/cart"
 
 const OXXO_LIMIT_MXN = 10000
@@ -90,9 +90,10 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex justify-center py-10"
+            role="status"
+            aria-label="Cargando formulario de pago"
           >
-            <Loader2 className="size-8 animate-spin text-foreground/40" aria-label="Cargando pago" />
+            <PaymentElementSkeleton />
           </motion.div>
         ) : error && !clientSecret ? (
           <FormBanner key="init-error" type="error">
@@ -118,6 +119,20 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
         Volver a envio
       </button>
     </FormFade>
+  )
+}
+
+function PaymentElementSkeleton() {
+  return (
+    <div className="space-y-3">
+      <Skeleton className="h-11 w-full" />
+      <div className="grid grid-cols-2 gap-3">
+        <Skeleton className="h-11 w-full" />
+        <Skeleton className="h-11 w-full" />
+      </div>
+      <Skeleton className="h-11 w-full" />
+      <Skeleton className="h-12 w-full rounded-full" />
+    </div>
   )
 }
 

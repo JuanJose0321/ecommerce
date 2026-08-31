@@ -24,8 +24,8 @@ export function ProductGrid({ products }: { products: CatalogProduct[] }) {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-4">
       <AnimatePresence mode="popLayout">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {products.map((product, index) => (
+          <ProductCard key={product.id} product={product} index={index} />
         ))}
       </AnimatePresence>
     </div>

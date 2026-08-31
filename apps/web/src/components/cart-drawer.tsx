@@ -27,15 +27,27 @@ export function CartDrawer() {
         </SheetHeader>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.25 }}
+            className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center"
+          >
             <ShoppingBag className="size-8 text-muted-foreground" />
             <p className="font-heading text-lg">Tu carrito esta vacio</p>
             <p className="text-sm text-muted-foreground">
               Explora el catalogo y encuentra tu proxima pieza favorita.
             </p>
-          </div>
+          </motion.div>
         ) : (
-          <>
+          <motion.div
+            key="items"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.25 }}
+            className="flex flex-1 flex-col overflow-hidden"
+          >
             <div className="flex-1 overflow-y-auto px-4">
               <AnimatePresence initial={false}>
                 {items.map((item) => (
@@ -129,7 +141,7 @@ export function CartDrawer() {
                 Ir a pagar
               </Link>
             </div>
-          </>
+          </motion.div>
         )}
       </SheetContent>
     </Sheet>

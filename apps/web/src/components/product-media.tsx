@@ -2,8 +2,9 @@
 
 import { useState } from "react"
 import dynamic from "next/dynamic"
-import Image from "next/image"
+import { AnimatePresence, motion } from "framer-motion"
 import { ProductLightbox } from "@/components/product-lightbox"
+import { ProductThumbnail } from "@/components/product-thumbnail"
 import { isWebGLAvailable } from "@/lib/webgl"
 import type { MedusaImage } from "@/lib/medusa"
 
@@ -66,40 +67,51 @@ export function ProductMedia({
             </button>
           </div>
         ) : images[activeIndex] ? (
-          <button
-            type="button"
-            onClick={() => setLightboxOpen(true)}
-            aria-label="Ampliar imagen"
-            className="group relative h-full w-full cursor-zoom-in"
-          >
-            <Image
-              src={images[activeIndex].url}
-              alt={title}
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-              loading="eager"
-              fetchPriority="high"
-            />
-          </button>
+          <AnimatePresence mode="sync" initial={false}>
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="absolute inset-0"
+            >
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                aria-label="Ampliar imagen"
+                className="group relative h-full w-full cursor-zoom-in"
+              >
+                <ProductThumbnail
+                  src={images[activeIndex].url}
+                  alt={title}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  imageClassName="transition-transform duration-500 group-hover:scale-[1.03]"
+                  priority={activeIndex === 0}
+                />
+              </button>
+            </motion.div>
+          </AnimatePresence>
         ) : null}
       </div>
 
       {mode === "gallery" && images.length > 1 ? (
         <div className="mt-3 flex gap-2">
           {images.map((img, i) => (
-            <button
+            <motion.button
               key={img.id}
               type="button"
               onClick={() => setActiveIndex(i)}
               aria-label={`Ver imagen ${i + 1}`}
               aria-current={i === activeIndex}
-              className={`relative size-16 overflow-hidden bg-muted transition-opacity ${
+              whileTap={{ scale: 0.92 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className={`relative size-16 overflow-hidden bg-muted transition-opacity duration-200 ${
                 i === activeIndex ? "opacity-100 ring-1 ring-foreground" : "opacity-60 hover:opacity-100"
               }`}
             >
-              <Image src={img.url} alt="" fill sizes="64px" className="object-cover" />
-            </button>
+              <ProductThumbnail src={img.url} alt="" sizes="64px" />
+            </motion.button>
           ))}
         </div>
       ) : null}

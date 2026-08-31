@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Fuse from "fuse.js"
 import { Search } from "lucide-react"
+import { motion } from "framer-motion"
 import {
   Command,
   CommandDialog,
@@ -77,18 +78,20 @@ export function SearchDialog() {
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Buscar productos"
-        className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+        whileTap={{ scale: 0.96 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:border-foreground hover:text-foreground"
       >
         <Search className="size-4" />
         <span className="hidden sm:inline">Buscar</span>
         <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[10px] sm:inline">
           ⌘K
         </kbd>
-      </button>
+      </motion.button>
 
       <CommandDialog
         open={open}
