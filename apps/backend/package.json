@@ -19,7 +19,7 @@
     "lint": "medusa lint",
     "seed": "medusa exec ./src/migration-scripts/initial-data-seed.ts",
     "seed:luxury": "medusa exec ./src/scripts/seed-luxury-catalog.ts",
-    "seed:reviews": "medusa exec ./src/scripts/seed-reviews.ts",
+    "purge:seeded-reviews": "medusa exec ./src/scripts/purge-seeded-reviews.ts",
     "test:integration:http": "cross-env TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:integration:modules": "cross-env TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
     "test:unit": "cross-env TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit"

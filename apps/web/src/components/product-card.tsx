@@ -49,7 +49,7 @@ export function ProductCard({
           />
         </div>
         <div className="mt-4 space-y-1">
-          <h3 className="font-heading text-lg leading-snug transition-colors group-hover:text-muted-foreground">
+          <h3 className="font-heading text-lg leading-snug text-foreground transition-colors duration-200 group-hover:text-muted-foreground">
             {product.title}
           </h3>
           {product.reviewCount ? (

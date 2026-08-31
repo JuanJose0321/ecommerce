@@ -230,6 +230,38 @@ export async function getCatalogFacets(): Promise<{
   }
 }
 
+/**
+ * A representative sample for the home page's "Destacados" carousel: walks
+ * the catalog round-robin across categories (one item per category per
+ * round) so all four are represented instead of whichever has the most
+ * products. Reuses the same full-catalog fetch as getCatalogFacets, so
+ * Next's fetch cache/request memoization means this doesn't add a second
+ * network round-trip within the same page render.
+ */
+export async function getFeaturedProducts(limit = 6): Promise<CatalogProduct[]> {
+  const { products: rawProducts } = await listProducts({ limit: FULL_FETCH_LIMIT })
+  const mapped = rawProducts.map(toCatalogProduct)
+
+  const byCategory = new Map<string, CatalogProduct[]>()
+  for (const product of mapped) {
+    const category = product.categoryHandles[0] ?? "otros"
+    if (!byCategory.has(category)) byCategory.set(category, [])
+    byCategory.get(category)!.push(product)
+  }
+  const groups = Array.from(byCategory.values())
+
+  const featured: CatalogProduct[] = []
+  for (let round = 0; featured.length < limit && groups.some((g) => g[round]); round++) {
+    for (const group of groups) {
+      if (featured.length >= limit) break
+      if (group[round]) featured.push(group[round])
+    }
+  }
+
+  const summaries = await getReviewSummaries(featured.map((p) => p.id))
+  return withReviewSummaries(featured, summaries)
+}
+
 export function parseCatalogFilters(
   searchParams: Record<string, string | string[] | undefined>
 ): CatalogFilters {

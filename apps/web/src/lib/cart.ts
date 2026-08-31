@@ -16,6 +16,7 @@ export type CartLineItem = {
   thumbnail: string | null
   variant_id: string
   variant_title: string | null
+  product_id: string
 }
 
 export type CartAddress = {

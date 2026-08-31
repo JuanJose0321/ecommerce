@@ -11,10 +11,26 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { useCart } from "@/components/cart-provider"
+import { CartRecommendations } from "@/components/cart-recommendations"
+import { PromoCodeForm } from "@/components/promo-code-form"
 import { formatPrice } from "@/lib/format"
 
+// Below this many items the drawer has visible room to spare below the
+// list — fill it with recommendations instead of leaving dead space above
+// the totals.
+const RECOMMENDATION_THRESHOLD = 2
+
 export function CartDrawer() {
-  const { cart, isOpen, closeCart, updateItem, removeItem, isPending } = useCart()
+  const {
+    cart,
+    isOpen,
+    closeCart,
+    updateItem,
+    removeItem,
+    applyPromoCode,
+    removePromoCode,
+    isPending,
+  } = useCart()
   const items = cart?.items ?? []
 
   return (
@@ -39,6 +55,13 @@ export function CartDrawer() {
             <p className="text-sm text-muted-foreground">
               Explora el catálogo y encuentra tu próxima pieza favorita.
             </p>
+            <Link
+              href="/"
+              onClick={closeCart}
+              className="mt-2 rounded-full border border-border px-5 py-2 text-sm transition-colors duration-200 hover:border-foreground"
+            >
+              Explorar catálogo
+            </Link>
           </motion.div>
         ) : (
           <motion.div
@@ -123,12 +146,37 @@ export function CartDrawer() {
                   </motion.div>
                 ))}
               </AnimatePresence>
+
+              {items.length <= RECOMMENDATION_THRESHOLD ? (
+                <CartRecommendations
+                  excludeProductIds={items.map((item) => item.product_id)}
+                />
+              ) : null}
             </div>
 
             <div className="space-y-4 border-t border-border px-4 py-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>{formatPrice(cart!.subtotal, cart!.currency_code)}</span>
+              <PromoCodeForm
+                promotions={cart!.promotions}
+                onApply={applyPromoCode}
+                onRemove={removePromoCode}
+              />
+
+              <div className="space-y-1.5 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>{formatPrice(cart!.subtotal, cart!.currency_code)}</span>
+                </div>
+                {cart!.discount_total > 0 ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="flex items-center justify-between text-foreground"
+                  >
+                    <span className="text-muted-foreground">Descuento</span>
+                    <span>-{formatPrice(cart!.discount_total, cart!.currency_code)}</span>
+                  </motion.div>
+                ) : null}
               </div>
               <p className="text-xs text-muted-foreground">
                 Envío e impuestos se calculan en el checkout.
@@ -140,6 +188,13 @@ export function CartDrawer() {
               >
                 Ir a pagar
               </Link>
+              <button
+                type="button"
+                onClick={closeCart}
+                className="block w-full text-center text-sm text-muted-foreground underline underline-offset-4 transition-colors duration-200 hover:text-foreground"
+              >
+                Seguir comprando
+              </button>
             </div>
           </motion.div>
         )}

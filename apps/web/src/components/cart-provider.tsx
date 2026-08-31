@@ -7,6 +7,10 @@ import {
   removeCartItemAction,
   updateCartItemAction,
 } from "@/app/actions/cart"
+import {
+  applyPromoCodeAction,
+  removePromoCodeAction,
+} from "@/app/actions/checkout"
 import type { Cart } from "@/lib/cart"
 
 type CartContextValue = {
@@ -19,6 +23,8 @@ type CartContextValue = {
   addItem: (variantId: string, quantity: number) => Promise<{ ok: boolean; message?: string }>
   updateItem: (lineItemId: string, quantity: number) => Promise<void>
   removeItem: (lineItemId: string) => Promise<void>
+  applyPromoCode: (code: string) => Promise<{ ok: boolean; message?: string }>
+  removePromoCode: (code: string) => Promise<void>
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
@@ -90,6 +96,38 @@ export function CartProvider({
     }
   }, [])
 
+  const applyPromoCode = useCallback(async (code: string) => {
+    setIsPending(true)
+    try {
+      const result = await applyPromoCodeAction(code)
+      if (result.ok) {
+        setCart(result.cart)
+        return { ok: true }
+      }
+      return { ok: false, message: result.message }
+    } catch {
+      return { ok: false, message: NETWORK_ERROR_MESSAGE }
+    } finally {
+      setIsPending(false)
+    }
+  }, [])
+
+  const removePromoCode = useCallback(async (code: string) => {
+    setIsPending(true)
+    try {
+      const result = await removePromoCodeAction(code)
+      if (result.ok) {
+        setCart(result.cart)
+      } else {
+        toast.error(result.message)
+      }
+    } catch {
+      toast.error(NETWORK_ERROR_MESSAGE)
+    } finally {
+      setIsPending(false)
+    }
+  }, [])
+
   return (
     <CartContext.Provider
       value={{
@@ -102,6 +140,8 @@ export function CartProvider({
         addItem,
         updateItem,
         removeItem,
+        applyPromoCode,
+        removePromoCode,
       }}
     >
       {children}

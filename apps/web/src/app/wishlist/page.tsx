@@ -56,7 +56,7 @@ export default function WishlistPage() {
                   ) : null}
                 </div>
                 <div className="mt-4 space-y-1">
-                  <h3 className="font-heading text-lg leading-snug">{item.title}</h3>
+                  <h3 className="font-heading text-lg leading-snug text-foreground transition-colors duration-200 group-hover:text-muted-foreground">{item.title}</h3>
                   <p className="text-sm text-muted-foreground">
                     {formatPrice(item.minPrice, item.currency)}
                   </p>
