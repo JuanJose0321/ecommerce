@@ -1,13 +1,19 @@
 "use client"
 
-import { useId, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { motion } from "framer-motion"
+
 import {
   addAddressAction,
   deleteAddressAction,
   updateAddressAction,
 } from "@/app/actions/auth"
+import { AnimatedForm } from "@/components/ui/animated-form"
+import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
+import { FormField } from "@/components/ui/form-field"
+import { SubmitButton } from "@/components/ui/submit-button"
 import type { CustomerAddress } from "@/lib/auth"
 
 function handleSessionExpiry(message: string, router: ReturnType<typeof useRouter>) {
@@ -129,111 +135,118 @@ export function AddressBook({
       ) : null}
 
       <ul className="space-y-4">
-        {initialAddresses.map((address) => (
-          <li key={address.id} className="border border-border p-5">
-            <p className="text-sm font-medium">
-              {address.first_name} {address.last_name}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {address.address_1}
-              {address.address_2 ? `, ${address.address_2}` : ""}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {address.city}, {address.province}, {address.postal_code}
-            </p>
-            <p className="text-sm text-muted-foreground">{address.phone}</p>
-            <div className="mt-3 flex gap-4">
-              <button
-                type="button"
-                onClick={() => startEdit(address)}
-                className="text-xs text-foreground underline"
-              >
-                Editar
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDelete(address.id)}
-                className="text-xs text-destructive underline"
-              >
-                Eliminar
-              </button>
-            </div>
-          </li>
-        ))}
+        <AnimatePresence initial={false}>
+          {initialAddresses.map((address) => (
+            <motion.li
+              key={address.id}
+              layout
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="rounded-lg border border-border p-5 transition-colors hover:border-foreground/30"
+            >
+              <p className="text-sm font-medium">
+                {address.first_name} {address.last_name}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {address.address_1}
+                {address.address_2 ? `, ${address.address_2}` : ""}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {address.city}, {address.province}, {address.postal_code}
+              </p>
+              <p className="text-sm text-muted-foreground">{address.phone}</p>
+              <div className="mt-3 flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => startEdit(address)}
+                  className="text-xs text-foreground underline underline-offset-4 transition-opacity hover:opacity-70"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(address.id)}
+                  className="text-xs text-destructive underline underline-offset-4 transition-opacity hover:opacity-70"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
 
-      {isFormOpen ? (
-        <form onSubmit={handleSubmit} className="max-w-md space-y-4 border border-border p-5">
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Nombre" value={form.first_name} onChange={(v) => setForm((f) => ({ ...f, first_name: v }))} />
-            <Field label="Apellido" value={form.last_name} onChange={(v) => setForm((f) => ({ ...f, last_name: v }))} />
-          </div>
-          <Field label="Direccion" value={form.address_1} onChange={(v) => setForm((f) => ({ ...f, address_1: v }))} />
-          <Field label="Referencias (opcional)" required={false} value={form.address_2} onChange={(v) => setForm((f) => ({ ...f, address_2: v }))} />
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Ciudad" value={form.city} onChange={(v) => setForm((f) => ({ ...f, city: v }))} />
-            <Field label="Estado" value={form.province} onChange={(v) => setForm((f) => ({ ...f, province: v }))} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Codigo postal" value={form.postal_code} onChange={(v) => setForm((f) => ({ ...f, postal_code: v }))} />
-            <Field label="Telefono" value={form.phone} onChange={(v) => setForm((f) => ({ ...f, phone: v }))} />
-          </div>
-          {error ? <p className="text-sm text-destructive">{error}</p> : null}
-          <div className="flex gap-3">
-            <button
-              type="submit"
-              disabled={status === "submitting"}
-              className="rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-            >
-              {status === "submitting" ? "Guardando..." : "Guardar direccion"}
-            </button>
-            <button
-              type="button"
-              onClick={cancel}
-              className="rounded-full border border-border px-5 py-2 text-sm transition-colors hover:border-foreground"
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
-      ) : (
-        <button
-          type="button"
-          onClick={startNew}
-          className="rounded-full border border-border px-5 py-2 text-sm transition-colors hover:border-foreground"
-        >
-          Anadir direccion
-        </button>
-      )}
-    </div>
-  )
-}
+      <AnimatePresence mode="wait" initial={false}>
+        {isFormOpen ? (
+          <AnimatedForm
+            key="address-form"
+            onSubmit={handleSubmit}
+            className="max-w-md space-y-5 rounded-lg border border-border p-6"
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <FormField label="Nombre" value={form.first_name} onChange={(e) => setForm((f) => ({ ...f, first_name: e.target.value }))} required />
+              <FormField label="Apellido" value={form.last_name} onChange={(e) => setForm((f) => ({ ...f, last_name: e.target.value }))} required />
+            </div>
+            <FormField label="Direccion" value={form.address_1} onChange={(e) => setForm((f) => ({ ...f, address_1: e.target.value }))} required />
+            <FormField
+              label="Referencias (opcional)"
+              value={form.address_2}
+              onChange={(e) => setForm((f) => ({ ...f, address_2: e.target.value }))}
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField label="Ciudad" value={form.city} onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))} required />
+              <FormField label="Estado" value={form.province} onChange={(e) => setForm((f) => ({ ...f, province: e.target.value }))} required />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                label="Codigo postal"
+                value={form.postal_code}
+                onChange={(e) => setForm((f) => ({ ...f, postal_code: e.target.value }))}
+                required
+              />
+              <FormField label="Telefono" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} required />
+            </div>
 
-function Field({
-  label,
-  value,
-  onChange,
-  required = true,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  required?: boolean
-}) {
-  const id = useId()
+            <AnimatePresence mode="wait" initial={false}>
+              {error ? (
+                <FormBanner key="form-error" type="error">
+                  {error}
+                </FormBanner>
+              ) : null}
+            </AnimatePresence>
 
-  return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="text-xs tracking-wide text-muted-foreground uppercase">
-        {label}
-      </label>
-      <input
-        id={id}
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
-      />
+            <div className="flex gap-3">
+              <SubmitButton loading={status === "submitting"} loadingText="Guardando..." className="w-auto px-5">
+                Guardar direccion
+              </SubmitButton>
+              <button
+                type="button"
+                onClick={cancel}
+                className="rounded-full border border-border px-5 py-2 text-sm transition-colors duration-200 hover:border-foreground"
+              >
+                Cancelar
+              </button>
+            </div>
+          </AnimatedForm>
+        ) : (
+          <motion.button
+            key="add-button"
+            type="button"
+            onClick={startNew}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="rounded-full border border-border px-5 py-2 text-sm transition-colors duration-200 hover:border-foreground"
+          >
+            Anadir direccion
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

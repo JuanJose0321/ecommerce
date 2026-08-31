@@ -4,8 +4,11 @@ import { useState } from "react"
 import Image from "next/image"
 import { X } from "lucide-react"
 import { toast } from "sonner"
+import { motion } from "framer-motion"
 import { formatPrice } from "@/lib/format"
 import { applyPromoCodeAction, removePromoCodeAction } from "@/app/actions/checkout"
+import { AnimatePresence } from "@/components/ui/form-banner"
+import { SubmitButton } from "@/components/ui/submit-button"
 import type { Cart } from "@/lib/cart"
 
 const NETWORK_ERROR_MESSAGE = "Error de red. Revisa tu conexion e intenta de nuevo."
@@ -57,7 +60,7 @@ export function OrderSummary({
   }
 
   return (
-    <div className="space-y-6 border border-border p-6">
+    <div className="space-y-6 rounded-lg border border-border p-6">
       <h2 className="font-heading text-xl">Resumen del pedido</h2>
 
       <ul className="space-y-4">
@@ -106,17 +109,33 @@ export function OrderSummary({
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Codigo de descuento"
-              className="flex-1 border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
+              aria-label="Codigo de descuento"
+              className="flex-1 rounded-md border border-border bg-transparent px-3 py-2 text-sm text-foreground outline-none transition-colors duration-200 placeholder:text-muted-foreground/60 focus:border-foreground"
             />
-            <button
-              type="submit"
-              disabled={status === "applying"}
-              className="rounded-full border border-border px-4 py-2 text-sm transition-colors hover:border-foreground disabled:opacity-50"
+            <SubmitButton
+              loading={status === "applying"}
+              loadingText=""
+              variant="outline"
+              className="w-auto shrink-0 rounded-full px-4 py-2"
             >
               Aplicar
-            </button>
+            </SubmitButton>
           </form>
-          {error ? <p className="mt-2 text-sm text-destructive">{error}</p> : null}
+          <AnimatePresence mode="wait" initial={false}>
+            {error ? (
+              <motion.p
+                key="coupon-error"
+                role="alert"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0, x: [0, -3, 3, -2, 2, 0] }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="mt-2 text-sm text-destructive"
+              >
+                {error}
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
         </div>
       ) : null}
 

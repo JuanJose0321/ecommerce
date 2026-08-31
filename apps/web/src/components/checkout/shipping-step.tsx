@@ -1,9 +1,15 @@
 "use client"
 
-import { useId, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
+import { motion } from "framer-motion"
+
 import { updateContactAction, setShippingMethodAction } from "@/app/actions/checkout"
 import { estimateShippingByPostalCode } from "@/lib/shipping-estimate"
 import { formatPrice } from "@/lib/format"
+import { AnimatedForm } from "@/components/ui/animated-form"
+import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
+import { FormField } from "@/components/ui/form-field"
+import { SubmitButton } from "@/components/ui/submit-button"
 import type { Cart } from "@/lib/cart"
 import type { ShippingOption } from "@/lib/checkout"
 
@@ -44,6 +50,7 @@ export function ShippingStep({
   )
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle")
   const [error, setError] = useState<string | null>(null)
+  const [shippingError, setShippingError] = useState<string | null>(null)
 
   const estimate = useMemo(
     () => estimateShippingByPostalCode(form.postal_code),
@@ -56,9 +63,10 @@ export function ShippingStep({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedOption) {
-      setError("Selecciona un metodo de envio.")
+      setShippingError("Selecciona un metodo de envio.")
       return
     }
+    setShippingError(null)
     setStatus("submitting")
     setError(null)
 
@@ -80,39 +88,35 @@ export function ShippingStep({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <div className="space-y-4">
+    <AnimatedForm onSubmit={handleSubmit} className="space-y-10">
+      <div className="space-y-5">
         <h2 className="font-heading text-xl">Contacto y envio</h2>
-        <Field label="Correo" type="email" value={form.email} onChange={(v) => update("email", v)} />
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Nombre" value={form.first_name} onChange={(v) => update("first_name", v)} />
-          <Field label="Apellido" value={form.last_name} onChange={(v) => update("last_name", v)} />
+        <FormField label="Correo" type="email" autoComplete="email" required value={form.email} onChange={(e) => update("email", e.target.value)} />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField label="Nombre" autoComplete="given-name" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
+          <FormField label="Apellido" autoComplete="family-name" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} />
         </div>
-        <Field label="Direccion" value={form.address_1} onChange={(v) => update("address_1", v)} />
-        <Field
+        <FormField label="Direccion" autoComplete="address-line1" required value={form.address_1} onChange={(e) => update("address_1", e.target.value)} />
+        <FormField
           label="Referencias (opcional)"
-          required={false}
+          autoComplete="address-line2"
           value={form.address_2}
-          onChange={(v) => update("address_2", v)}
+          onChange={(e) => update("address_2", e.target.value)}
         />
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Ciudad" value={form.city} onChange={(v) => update("city", v)} />
-          <Field label="Estado" value={form.province} onChange={(v) => update("province", v)} />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField label="Ciudad" autoComplete="address-level2" required value={form.city} onChange={(e) => update("city", e.target.value)} />
+          <FormField label="Estado" autoComplete="address-level1" required value={form.province} onChange={(e) => update("province", e.target.value)} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Field
-              label="Codigo postal"
-              value={form.postal_code}
-              onChange={(v) => update("postal_code", v.replace(/\D/g, "").slice(0, 5))}
-            />
-            {estimate ? (
-              <p className="mt-1.5 text-xs text-muted-foreground">
-                Zona {estimate.zone}: estandar {estimate.standardDays}, exprés {estimate.expressDays}.
-              </p>
-            ) : null}
-          </div>
-          <Field label="Telefono" value={form.phone} onChange={(v) => update("phone", v)} />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            label="Codigo postal"
+            autoComplete="postal-code"
+            required
+            value={form.postal_code}
+            onChange={(e) => update("postal_code", e.target.value.replace(/\D/g, "").slice(0, 5))}
+            hint={estimate ? `Zona ${estimate.zone}: estandar ${estimate.standardDays}, exprés ${estimate.expressDays}.` : undefined}
+          />
+          <FormField label="Telefono" autoComplete="tel" required value={form.phone} onChange={(e) => update("phone", e.target.value)} />
         </div>
       </div>
 
@@ -121,8 +125,8 @@ export function ShippingStep({
         {shippingOptions.map((option) => (
           <label
             key={option.id}
-            className={`flex cursor-pointer items-center justify-between border p-4 text-sm transition-colors ${
-              selectedOption === option.id ? "border-foreground" : "border-border"
+            className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 text-sm transition-colors duration-200 ${
+              selectedOption === option.id ? "border-foreground" : "border-border hover:border-foreground/40"
             }`}
           >
             <span className="flex items-center gap-3">
@@ -130,7 +134,10 @@ export function ShippingStep({
                 type="radio"
                 name="shipping-option"
                 checked={selectedOption === option.id}
-                onChange={() => setSelectedOption(option.id)}
+                onChange={() => {
+                  setSelectedOption(option.id)
+                  setShippingError(null)
+                }}
                 className="accent-foreground"
               />
               {option.name}
@@ -138,49 +145,34 @@ export function ShippingStep({
             <span>{formatPrice(option.amount, cart.currency_code)}</span>
           </label>
         ))}
+        <AnimatePresence mode="wait" initial={false}>
+          {shippingError ? (
+            <motion.p
+              key="shipping-error"
+              role="alert"
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0, x: [0, -3, 3, -2, 2, 0] }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="text-xs text-destructive"
+            >
+              {shippingError}
+            </motion.p>
+          ) : null}
+        </AnimatePresence>
       </div>
 
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+      <AnimatePresence mode="wait" initial={false}>
+        {error ? (
+          <FormBanner key="form-error" type="error">
+            {error}
+          </FormBanner>
+        ) : null}
+      </AnimatePresence>
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
-        {status === "submitting" ? "Guardando..." : "Continuar a pago"}
-      </button>
-    </form>
-  )
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-  type = "text",
-  required = true,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  type?: string
-  required?: boolean
-}) {
-  const id = useId()
-
-  return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="text-xs tracking-wide text-muted-foreground uppercase">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
-      />
-    </div>
+      <SubmitButton loading={status === "submitting"} loadingText="Guardando..." className="py-3.5">
+        Continuar a pago
+      </SubmitButton>
+    </AnimatedForm>
   )
 }

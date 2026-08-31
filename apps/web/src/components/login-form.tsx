@@ -1,21 +1,40 @@
 "use client"
 
-import { useId, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Eye, EyeOff } from "lucide-react"
+
 import { loginAction } from "@/app/actions/auth"
+import { AnimatedForm, FormFade } from "@/components/ui/animated-form"
+import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
+import { FormField } from "@/components/ui/form-field"
+import { SubmitButton } from "@/components/ui/submit-button"
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function LoginForm() {
   const router = useRouter()
-  const emailId = useId()
-  const passwordId = useId()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [emailError, setEmailError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle")
   const [error, setError] = useState<string | null>(null)
 
+  const validateEmail = () => {
+    if (email && !EMAIL_PATTERN.test(email)) {
+      setEmailError("Ingresa un correo valido.")
+      return false
+    }
+    setEmailError(null)
+    return true
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateEmail()) return
+
     setStatus("submitting")
     setError(null)
 
@@ -31,52 +50,65 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-sm space-y-5">
-      <div className="space-y-1.5">
-        <label htmlFor={emailId} className="text-xs tracking-wide text-muted-foreground uppercase">
-          Correo
-        </label>
-        <input
-          id={emailId}
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
-        />
-      </div>
-      <div className="space-y-1.5">
-        <label htmlFor={passwordId} className="text-xs tracking-wide text-muted-foreground uppercase">
-          Contrasena
-        </label>
-        <input
-          id={passwordId}
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
-        />
-      </div>
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
-        {status === "submitting" ? "Entrando..." : "Iniciar sesion"}
-      </button>
-      <p className="text-center text-sm text-muted-foreground">
-        <Link href="/account/forgot-password" className="text-foreground underline">
-          Olvidaste tu contrasena?
-        </Link>
-      </p>
-      <p className="text-center text-sm text-muted-foreground">
-        No tienes cuenta?{" "}
-        <Link href="/account/register" className="text-foreground underline">
-          Crea una
-        </Link>
-      </p>
-    </form>
+    <AnimatedForm onSubmit={handleSubmit} className="mx-auto max-w-sm space-y-6">
+      <FormField
+        label="Correo"
+        type="email"
+        autoComplete="email"
+        required
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value)
+          if (emailError) setEmailError(null)
+        }}
+        onBlur={validateEmail}
+        error={emailError}
+      />
+      <FormField
+        label="Contrasena"
+        type={showPassword ? "text" : "password"}
+        autoComplete="current-password"
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        endAdornment={
+          <button
+            type="button"
+            tabIndex={-1}
+            onClick={() => setShowPassword((v) => !v)}
+            className="p-1 text-muted-foreground transition-colors hover:text-foreground"
+            aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+          >
+            {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+          </button>
+        }
+      />
+
+      <AnimatePresence mode="wait" initial={false}>
+        {error ? (
+          <FormBanner key="form-error" type="error">
+            {error}
+          </FormBanner>
+        ) : null}
+      </AnimatePresence>
+
+      <SubmitButton loading={status === "submitting"} loadingText="Entrando...">
+        Iniciar sesion
+      </SubmitButton>
+
+      <FormFade className="space-y-2">
+        <p className="text-center text-sm text-muted-foreground">
+          <Link href="/account/forgot-password" className="text-foreground underline underline-offset-4 transition-opacity hover:opacity-70">
+            Olvidaste tu contrasena?
+          </Link>
+        </p>
+        <p className="text-center text-sm text-muted-foreground">
+          No tienes cuenta?{" "}
+          <Link href="/account/register" className="text-foreground underline underline-offset-4 transition-opacity hover:opacity-70">
+            Crea una
+          </Link>
+        </p>
+      </FormFade>
+    </AnimatedForm>
   )
 }

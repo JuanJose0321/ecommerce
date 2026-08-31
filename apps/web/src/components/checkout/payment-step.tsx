@@ -9,9 +9,15 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js"
 import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+import { motion } from "framer-motion"
+
 import { getStripe } from "@/lib/stripe-client"
 import { initiatePaymentAction, completeOrderAction } from "@/app/actions/checkout"
 import { formatPrice } from "@/lib/format"
+import { AnimatedForm, FormFade } from "@/components/ui/animated-form"
+import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
+import { SubmitButton } from "@/components/ui/submit-button"
 import type { Cart } from "@/lib/cart"
 
 const OXXO_LIMIT_MXN = 10000
@@ -52,7 +58,7 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
   }, [provider])
 
   return (
-    <div className="space-y-6">
+    <FormFade className="space-y-6">
       <h2 className="font-heading text-xl">Pago</h2>
 
       <div className="flex gap-2">
@@ -76,29 +82,42 @@ export function PaymentStep({ cart, onBack }: { cart: Cart; onBack: () => void }
         </p>
       ) : null}
 
-      {loading ? (
-        <div className="flex justify-center py-10">
-          <div className="size-8 animate-spin rounded-full border-2 border-foreground/20 border-t-foreground" />
-        </div>
-      ) : error && !clientSecret ? (
-        <p className="text-sm text-destructive">{error}</p>
-      ) : clientSecret ? (
-        <Elements
-          stripe={getStripe()}
-          options={{ clientSecret, appearance: { theme: "stripe" } }}
-        >
-          <StripeCheckoutForm provider={provider} onBack={onBack} />
-        </Elements>
-      ) : null}
+      <AnimatePresence mode="wait" initial={false}>
+        {loading ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex justify-center py-10"
+          >
+            <Loader2 className="size-8 animate-spin text-foreground/40" aria-label="Cargando pago" />
+          </motion.div>
+        ) : error && !clientSecret ? (
+          <FormBanner key="init-error" type="error">
+            {error}
+          </FormBanner>
+        ) : clientSecret ? (
+          <motion.div key="elements" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: "easeOut" }}>
+            <Elements
+              stripe={getStripe()}
+              options={{ clientSecret, appearance: { theme: "stripe" } }}
+            >
+              <StripeCheckoutForm provider={provider} onBack={onBack} />
+            </Elements>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       <button
         type="button"
         onClick={onBack}
-        className="text-sm text-muted-foreground underline transition-colors hover:text-foreground"
+        className="text-sm text-muted-foreground underline underline-offset-4 transition-colors duration-200 hover:text-foreground"
       >
         Volver a envio
       </button>
-    </div>
+    </FormFade>
   )
 }
 
@@ -114,19 +133,22 @@ function PaymentMethodPill({
   children: React.ReactNode
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       disabled={disabled}
       aria-pressed={active}
-      className={`rounded-full border px-4 py-1.5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+      whileHover={disabled ? undefined : { scale: 1.02 }}
+      whileTap={disabled ? undefined : { scale: 0.97 }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
+      className={`rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40 ${
         active
           ? "border-foreground bg-foreground text-background"
           : "border-border text-foreground hover:border-foreground"
       }`}
     >
       {children}
-    </button>
+    </motion.button>
   )
 }
 
@@ -141,6 +163,7 @@ function StripeCheckoutForm({
   const stripe = useStripe()
   const elements = useElements()
   const [submitting, setSubmitting] = useState(false)
+  const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [voucherUrl, setVoucherUrl] = useState<string | null>(null)
 
@@ -201,7 +224,10 @@ function StripeCheckoutForm({
         return
       }
 
-      router.push(`/checkout/confirmacion/${result.order.id}`)
+      setSucceeded(true)
+      setTimeout(() => {
+        router.push(`/checkout/confirmacion/${result.order.id}`)
+      }, 600)
     } catch {
       const message = "Error de red. Revisa tu conexion e intenta de nuevo."
       setError(message)
@@ -210,9 +236,17 @@ function StripeCheckoutForm({
     }
   }
 
+  if (succeeded) {
+    return (
+      <FormFade>
+        <FormBanner type="success">Pago confirmado. Redirigiendo a tu orden...</FormBanner>
+      </FormFade>
+    )
+  }
+
   if (voucherUrl) {
     return (
-      <div className="space-y-4 border border-border p-6 text-center">
+      <FormFade className="space-y-4 rounded-lg border border-border p-6 text-center">
         <p className="font-heading text-lg">Tu voucher OXXO esta listo</p>
         <p className="text-sm text-muted-foreground">
           Paga en cualquier tienda OXXO antes de que expire. En cuanto se
@@ -222,37 +256,43 @@ function StripeCheckoutForm({
           href={voucherUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background"
+          className="inline-block rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-colors duration-200 hover:bg-foreground/90"
         >
           Ver voucher para pagar
         </a>
-      </div>
+      </FormFade>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <AnimatedForm onSubmit={handleSubmit} className="space-y-6">
       <PaymentElement />
-      {error ? (
-        <div className="space-y-2 border border-destructive/30 bg-destructive/5 p-4">
-          <p className="text-sm font-medium text-destructive">Pago rechazado</p>
-          <p className="text-sm text-destructive">{error}</p>
-          <button
-            type="button"
-            onClick={onBack}
-            className="text-sm text-destructive underline"
+      <AnimatePresence mode="wait" initial={false}>
+        {error ? (
+          <motion.div
+            key="payment-error"
+            role="alert"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0, x: [0, -4, 4, -3, 3, 0] }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="space-y-2 border border-destructive/30 bg-destructive/5 p-4"
           >
-            Intentar con otro metodo de pago
-          </button>
-        </div>
-      ) : null}
-      <button
-        type="submit"
-        disabled={!stripe || submitting}
-        className="w-full rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
-        {submitting ? "Procesando..." : "Pagar ahora"}
-      </button>
-    </form>
+            <p className="text-sm font-medium text-destructive">Pago rechazado</p>
+            <p className="text-sm text-destructive">{error}</p>
+            <button
+              type="button"
+              onClick={onBack}
+              className="text-sm text-destructive underline underline-offset-4"
+            >
+              Intentar con otro metodo de pago
+            </button>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+      <SubmitButton loading={submitting} loadingText="Procesando..." disabled={!stripe} className="py-3.5">
+        Pagar ahora
+      </SubmitButton>
+    </AnimatedForm>
   )
 }

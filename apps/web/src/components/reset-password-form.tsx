@@ -1,27 +1,49 @@
 "use client"
 
-import { useId, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { Eye, EyeOff } from "lucide-react"
+
 import { resetPasswordAction } from "@/app/actions/auth"
+import { AnimatedForm, FormFade } from "@/components/ui/animated-form"
+import { AnimatePresence, FormBanner } from "@/components/ui/form-banner"
+import { FormField } from "@/components/ui/form-field"
+import { SubmitButton } from "@/components/ui/submit-button"
+
+const MIN_PASSWORD_LENGTH = 8
 
 export function ResetPasswordForm({ token }: { token: string | null }) {
   const router = useRouter()
-  const passwordId = useId()
   const [password, setPassword] = useState("")
-  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle")
+  const [passwordError, setPasswordError] = useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
   const [error, setError] = useState<string | null>(null)
 
   if (!token) {
     return (
-      <p className="text-center text-sm text-destructive">
-        Este enlace no es valido. Solicita uno nuevo desde la pagina de
-        recuperacion.
-      </p>
+      <FormFade>
+        <FormBanner type="error">
+          Este enlace no es valido. Solicita uno nuevo desde la pagina de
+          recuperacion.
+        </FormBanner>
+      </FormFade>
     )
+  }
+
+  const validatePassword = () => {
+    if (password && password.length < MIN_PASSWORD_LENGTH) {
+      setPasswordError(`Minimo ${MIN_PASSWORD_LENGTH} caracteres.`)
+      return false
+    }
+    setPasswordError(null)
+    return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validatePassword()) return
+
     setStatus("submitting")
     setError(null)
 
@@ -32,33 +54,60 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
       return
     }
 
-    router.push("/account/login")
+    setStatus("success")
+    setTimeout(() => {
+      router.push("/account/login")
+    }, 700)
+  }
+
+  if (status === "success") {
+    return (
+      <FormFade className="mx-auto max-w-sm">
+        <FormBanner type="success">Contrasena actualizada. Redirigiendo...</FormBanner>
+      </FormFade>
+    )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-sm space-y-5">
-      <div className="space-y-1.5">
-        <label htmlFor={passwordId} className="text-xs tracking-wide text-muted-foreground uppercase">
-          Nueva contrasena
-        </label>
-        <input
-          id={passwordId}
-          type="password"
-          required
-          minLength={8}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-foreground"
-        />
-      </div>
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
-        {status === "submitting" ? "Guardando..." : "Restablecer contrasena"}
-      </button>
-    </form>
+    <AnimatedForm onSubmit={handleSubmit} className="mx-auto max-w-sm space-y-6">
+      <FormField
+        label="Nueva contrasena"
+        type={showPassword ? "text" : "password"}
+        autoComplete="new-password"
+        required
+        minLength={MIN_PASSWORD_LENGTH}
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value)
+          if (passwordError) setPasswordError(null)
+        }}
+        onBlur={validatePassword}
+        error={passwordError}
+        hint={passwordError ? undefined : "Minimo 8 caracteres."}
+        endAdornment={
+          <button
+            type="button"
+            tabIndex={-1}
+            onClick={() => setShowPassword((v) => !v)}
+            className="p-1 text-muted-foreground transition-colors hover:text-foreground"
+            aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+          >
+            {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+          </button>
+        }
+      />
+
+      <AnimatePresence mode="wait" initial={false}>
+        {error ? (
+          <FormBanner key="form-error" type="error">
+            {error}
+          </FormBanner>
+        ) : null}
+      </AnimatePresence>
+
+      <SubmitButton loading={status === "submitting"} loadingText="Guardando...">
+        Restablecer contrasena
+      </SubmitButton>
+    </AnimatedForm>
   )
 }
