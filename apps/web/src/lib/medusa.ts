@@ -178,7 +178,19 @@ export async function listProducts(): Promise<MedusaProduct[]> {
     }
   )
 
-  return data.products
+  return data.products.filter(isSellableProduct)
+}
+
+// A product published without a thumbnail or without a price in the
+// storefront's currency (e.g. published by mistake, or missing a price for
+// this region) would otherwise render as a broken image with "Desde $0" -
+// keep it out of every listing (catalog, related products, search) until
+// it's actually ready to sell. The product detail page is intentionally
+// left reachable by direct link so merchandising can still preview it.
+function isSellableProduct(product: MedusaProduct): boolean {
+  const hasImage = Boolean(product.thumbnail)
+  const hasPrice = getProductPriceRange(product).min > 0
+  return hasImage && hasPrice
 }
 
 export async function getProductByHandle(
