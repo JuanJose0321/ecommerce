@@ -214,6 +214,126 @@ const PRODUCTS: ProductSeed[] = [
     priceMxn: 6900,
     priceUsd: 380,
   },
+  {
+    title: "Reloj Minimalista Nocturne",
+    category: "Relojes",
+    description:
+      "Reloj de esfera negra mate con bisel delgado y correa de malla milanesa. Diseño depurado para el día a día sin perder carácter.",
+    handle: "reloj-minimalista-nocturne",
+    image:
+      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=1200&q=80",
+    axes: [
+      { title: "Material", values: ["Acero Cepillado", "Acero Negro"] },
+      { title: "Correa", values: ["Malla Milanesa", "Piel Negra"] },
+    ],
+    priceMxn: 24800,
+    priceUsd: 1370,
+  },
+  {
+    title: "Reloj Bracelet Aurora Plata",
+    category: "Relojes",
+    description:
+      "Reloj bracelet en acero plateado con eslabones articulados y esfera lacada blanca. Una pieza statement que fusiona joyería y relojería.",
+    handle: "reloj-bracelet-aurora-plata",
+    image:
+      "https://images.unsplash.com/photo-1645961855223-f5b203e47f2f?w=1200&q=80",
+    axes: [
+      { title: "Material", values: ["Acero Plateado", "Acero Dorado"] },
+      { title: "Correa", values: ["Eslabones Anchos", "Eslabones Finos"] },
+    ],
+    priceMxn: 31500,
+    priceUsd: 1740,
+  },
+  {
+    title: "Anillo Halo Rosé",
+    category: "Joyería",
+    description:
+      "Anillo con zafiro rosa central rodeado de pavé de diamantes, montado en oro rosa de 18k. Elegancia atemporal para ocasiones especiales.",
+    handle: "anillo-halo-rose",
+    image:
+      "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=1200&q=80",
+    axes: [
+      { title: "Metal", values: ["Oro Rosa 18k", "Oro Blanco 18k"] },
+      { title: "Talla", values: ["6", "7"] },
+    ],
+    priceMxn: 39500,
+    priceUsd: 2180,
+  },
+  {
+    title: "Anillo Piedra Turquesa",
+    category: "Joyería",
+    description:
+      "Anillo delicado con piedra turquesa cabujón engastada en oro vermeil. Pensado para combinarse en capas con otras piezas.",
+    handle: "anillo-piedra-turquesa",
+    image:
+      "https://images.unsplash.com/photo-1608042314453-ae338d80c427?w=1200&q=80",
+    axes: [
+      { title: "Metal", values: ["Oro Vermeil", "Plata"] },
+      { title: "Talla", values: ["6", "7"] },
+    ],
+    priceMxn: 15800,
+    priceUsd: 875,
+  },
+  {
+    title: "Blazer Estructurado Onyx",
+    category: "Moda",
+    description:
+      "Blazer entallado en lana fría con forro interior de viscosa y solapa de pico. Corte moderno para el guardarropa formal.",
+    handle: "blazer-estructurado-onyx",
+    image:
+      "https://images.unsplash.com/photo-1585412459212-8def26f7e84c?w=1200&q=80",
+    axes: [
+      { title: "Talla", values: ["S", "M", "L"] },
+      { title: "Color", values: ["Negro", "Grafito"] },
+    ],
+    priceMxn: 22500,
+    priceUsd: 1245,
+  },
+  {
+    title: "Botas Chelsea Reserve",
+    category: "Moda",
+    description:
+      "Botas Chelsea en piel pulida a mano con elástico lateral y suela de cuero. Un básico de lujo para cualquier temporada.",
+    handle: "botas-chelsea-reserve",
+    image:
+      "https://images.unsplash.com/photo-1777987601677-3059be0e1388?w=1200&q=80",
+    axes: [
+      { title: "Talla", values: ["26", "27", "28"] },
+      { title: "Color", values: ["Café", "Negro"] },
+    ],
+    priceMxn: 13200,
+    priceUsd: 730,
+  },
+  {
+    title: "Altavoz Portátil Resonance",
+    category: "Tecnología",
+    description:
+      "Altavoz portátil con acabado cerámico mate y sonido envolvente de 360°. Diseño circular pensado para integrarse a cualquier espacio.",
+    handle: "altavoz-portatil-resonance",
+    image:
+      "https://images.unsplash.com/photo-1675319245480-215961c129f1?w=1200&q=80",
+    axes: [
+      { title: "Color", values: ["Blanco Perla", "Grafito"] },
+      { title: "Edición", values: ["Estándar", "Pro"] },
+    ],
+    priceMxn: 8400,
+    priceUsd: 465,
+  },
+  {
+    title: "Cámara Retro Voyage",
+    category: "Tecnología",
+    description:
+      "Cámara de estilo vintage con cuerpo en tono champán y funda de piel color café. Una pieza de colección para los amantes de la fotografía analógica.",
+    handle: "camara-retro-voyage",
+    image:
+      "https://images.unsplash.com/photo-1520549233664-03f65c1d1327?w=1200&q=80",
+    axes: [
+      { title: "Color", values: ["Champan", "Grafito"] },
+      { title: "Edición", values: ["Estándar", "Coleccionista"] },
+    ],
+    priceMxn: 11500,
+    priceUsd: 635,
+  },
 ]
 
 export default async function seedLuxuryCatalog({
