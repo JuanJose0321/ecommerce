@@ -44,6 +44,16 @@ export default async function purgeSeededReviews({
     return
   }
 
+  if (process.env.DRY_RUN === "1") {
+    logger.info(
+      `DRY_RUN=1 — would delete ${toDelete.length} seeded placeholder review(s), leaving ${reviews.length - toDelete.length} genuine review(s) untouched. Nothing deleted.`
+    )
+    for (const r of toDelete) {
+      logger.info(`  would delete: ${r.id} — ${r.author_name} — "${r.comment}"`)
+    }
+    return
+  }
+
   await reviewModuleService.deleteReviews(toDelete.map((r) => r.id))
   logger.info(
     `Deleted ${toDelete.length} seeded placeholder review(s). ${reviews.length - toDelete.length} genuine review(s) left untouched.`
