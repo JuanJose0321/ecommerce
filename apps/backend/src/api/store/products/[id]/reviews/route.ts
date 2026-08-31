@@ -43,7 +43,7 @@ export async function POST(req: MedusaRequest, res: MedusaResponse) {
   const parsed = CreateReviewSchema.safeParse(req.body)
 
   if (!parsed.success) {
-    res.status(400).json({ message: "Datos de resena invalidos" })
+    res.status(400).json({ message: "Datos de reseña invalidos" })
     return
   }
 

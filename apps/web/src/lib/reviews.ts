@@ -80,7 +80,7 @@ export async function submitReview(
 
   if (!res.ok) {
     const data = await res.json().catch(() => null)
-    return { ok: false, message: data?.message ?? "No se pudo enviar la resena." }
+    return { ok: false, message: data?.message ?? "No se pudo enviar la reseña." }
   }
 
   return { ok: true }

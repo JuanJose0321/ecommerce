@@ -80,14 +80,14 @@ export function ReviewsSection({
     <section className="space-y-8 border-t border-border pt-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="font-heading text-2xl">Resenas</h2>
+          <h2 className="font-heading text-2xl">Reseñas</h2>
           {reviews.length > 0 ? (
             <div className="mt-1">
               <StarRating value={average} count={reviews.length} />
             </div>
           ) : (
             <p className="mt-1 text-sm text-muted-foreground">
-              Aun no hay resenas para este producto.
+              Aun no hay reseñas para este producto.
             </p>
           )}
         </div>
@@ -99,7 +99,7 @@ export function ReviewsSection({
           transition={{ duration: 0.15, ease: "easeOut" }}
           className="rounded-full border border-border px-4 py-1.5 text-sm transition-colors duration-200 hover:border-foreground"
         >
-          {showForm ? "Cancelar" : "Escribir resena"}
+          {showForm ? "Cancelar" : "Escribir reseña"}
         </motion.button>
       </div>
 
@@ -162,7 +162,7 @@ export function ReviewsSection({
             </AnimatePresence>
 
             <SubmitButton loading={status === "submitting"} loadingText="Enviando...">
-              Enviar resena
+              Enviar reseña
             </SubmitButton>
           </AnimatedForm>
         ) : null}
