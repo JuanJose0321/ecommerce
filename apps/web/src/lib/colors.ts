@@ -10,6 +10,7 @@ const SPANISH_COLOR_HEX: Record<string, string> = {
   champan: "#e8dcc4",
   "oro rosa": "#e0b0a2",
   "café": "#4b3621",
+  piedra: "#9c9587",
 }
 
 export function colorToHex(name: string): string {

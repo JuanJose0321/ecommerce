@@ -334,6 +334,126 @@ const PRODUCTS: ProductSeed[] = [
     priceMxn: 11500,
     priceUsd: 635,
   },
+  {
+    title: "Reloj Diver Abyssal",
+    category: "Relojes",
+    description:
+      "Reloj deportivo con bisel giratorio, cristal de zafiro y resistencia al agua de 200 metros. Construido para explorar sin límites.",
+    handle: "reloj-diver-abyssal",
+    image:
+      "https://images.unsplash.com/photo-1638538379693-5c1114e877c1?w=1200&q=80",
+    axes: [
+      { title: "Material", values: ["Acero Negro", "Acero Plateado"] },
+      { title: "Correa", values: ["Caucho", "Malla Milanesa"] },
+    ],
+    priceMxn: 27800,
+    priceUsd: 1535,
+  },
+  {
+    title: "Reloj Vintage a Cuerda",
+    category: "Relojes",
+    description:
+      "Reloj de cuerda manual con esfera guilloché y ventana de fase lunar. Un homenaje a la relojería clásica europea.",
+    handle: "reloj-vintage-a-cuerda",
+    image:
+      "https://images.unsplash.com/photo-1570610265451-06cf32c3e3e4?w=1200&q=80",
+    axes: [
+      { title: "Material", values: ["Oro Viejo", "Acero"] },
+      { title: "Correa", values: ["Piel Cognac", "Piel Negra"] },
+    ],
+    priceMxn: 29500,
+    priceUsd: 1630,
+  },
+  {
+    title: "Aretes Gota Cristal",
+    category: "Joyería",
+    description:
+      "Aretes largos con cristales facetados en tonos zafiro y perla, montados en metal bañado en rodio. Un guiño a la joyería de alfombra roja.",
+    handle: "aretes-gota-cristal",
+    image:
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1200&q=80",
+    axes: [
+      { title: "Metal", values: ["Rodio", "Oro Amarillo"] },
+      { title: "Largo", values: ["Corto", "Largo"] },
+    ],
+    priceMxn: 12800,
+    priceUsd: 705,
+  },
+  {
+    title: "Brazalete Cadena Cubana",
+    category: "Joyería",
+    description:
+      "Brazalete de eslabones cubanos en oro de 14k, acabado pulido a espejo. Una pieza statement que se lleva sola o en capas.",
+    handle: "brazalete-cadena-cubana",
+    image:
+      "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=1200&q=80",
+    axes: [
+      { title: "Metal", values: ["Oro 14k", "Oro Blanco 14k"] },
+      { title: "Talla", values: ["Chico", "Grande"] },
+    ],
+    priceMxn: 24500,
+    priceUsd: 1355,
+  },
+  {
+    title: "Gabardina Trench Camel",
+    category: "Moda",
+    description:
+      "Gabardina trench en algodón impermeable con cinturón anudado y forro a cuadros. El abrigo de entretiempo que nunca pasa de moda.",
+    handle: "gabardina-trench-camel",
+    image:
+      "https://images.unsplash.com/photo-1631277974569-5b571f9f5707?w=1200&q=80",
+    axes: [
+      { title: "Talla", values: ["S", "M", "L"] },
+      { title: "Color", values: ["Camel", "Negro"] },
+    ],
+    priceMxn: 18500,
+    priceUsd: 1020,
+  },
+  {
+    title: "Suéter Cuello Alto Piedra",
+    category: "Moda",
+    description:
+      "Suéter de cuello alto en mezcla de lana merino, tejido acanalado y calce relajado. Abrigo con carácter minimalista.",
+    handle: "sueter-cuello-alto-piedra",
+    image:
+      "https://images.unsplash.com/photo-1602792937572-33f95be0c65c?w=1200&q=80",
+    axes: [
+      { title: "Talla", values: ["S", "M", "L"] },
+      { title: "Color", values: ["Piedra", "Grafito"] },
+    ],
+    priceMxn: 6800,
+    priceUsd: 375,
+  },
+  {
+    title: "Audífonos Inalámbricos Aire",
+    category: "Tecnología",
+    description:
+      "Audífonos inalámbricos con cancelación de ruido activa y estuche de carga en aluminio cepillado. Hasta 30 horas de batería total.",
+    handle: "audifonos-inalambricos-aire",
+    image:
+      "https://images.unsplash.com/photo-1755182529034-189a6051faae?w=1200&q=80",
+    axes: [
+      { title: "Color", values: ["Blanco Perla", "Grafito"] },
+      { title: "Edición", values: ["Estándar", "Pro"] },
+    ],
+    priceMxn: 5400,
+    priceUsd: 300,
+  },
+  {
+    title: "Tocadiscos Vintage Melody",
+    category: "Tecnología",
+    description:
+      "Tocadiscos con brazo de fibra de carbono, base de madera maciza y salida Bluetooth integrada. El ritual del vinilo, con comodidades actuales.",
+    handle: "tocadiscos-vintage-melody",
+    image:
+      "https://images.unsplash.com/photo-1526394931762-90052e97b376?w=1200&q=80",
+    axes: [
+      { title: "Color", values: ["Café", "Negro"] },
+      { title: "Edición", values: ["Estándar", "Coleccionista"] },
+    ],
+    priceMxn: 9200,
+    priceUsd: 510,
+  },
 ]
 
 export default async function seedLuxuryCatalog({

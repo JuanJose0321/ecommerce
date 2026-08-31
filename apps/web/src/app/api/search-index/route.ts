@@ -3,7 +3,7 @@ import { listProducts } from "@/lib/medusa"
 import { toCatalogProduct } from "@/lib/catalog"
 
 export async function GET() {
-  const products = await listProducts()
+  const { products } = await listProducts({ limit: 100 })
   const index = products.map(toCatalogProduct).map((p) => ({
     id: p.id,
     title: p.title,

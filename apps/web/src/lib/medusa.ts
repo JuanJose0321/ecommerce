@@ -163,22 +163,45 @@ export async function listCategories(): Promise<MedusaCategory[]> {
   return data.product_categories.filter((c) => luxuryHandles.has(c.handle))
 }
 
-export async function listProducts(): Promise<MedusaProduct[]> {
+export type ListProductsOptions = {
+  limit?: number
+  offset?: number
+  categoryId?: string
+  order?: string
+}
+
+export type ListProductsResult = {
+  products: MedusaProduct[]
+  count: number
+}
+
+export async function listProducts(
+  options: ListProductsOptions = {}
+): Promise<ListProductsResult> {
   const regionId = await getDefaultRegionId()
 
-  const data = await medusaFetch<{ products: MedusaProduct[] }>(
+  const searchParams: Record<string, string> = {
+    limit: String(options.limit ?? 100),
+    offset: String(options.offset ?? 0),
+    region_id: regionId,
+    fields: PRODUCT_FIELDS,
+  }
+  if (options.categoryId) searchParams["category_id[]"] = options.categoryId
+  if (options.order) searchParams.order = options.order
+
+  const data = await medusaFetch<{ products: MedusaProduct[]; count: number }>(
     "/store/products",
     {
-      searchParams: {
-        limit: "100",
-        region_id: regionId,
-        fields: PRODUCT_FIELDS,
-      },
+      searchParams,
       next: { revalidate: 60, tags: ["products"] },
     }
   )
 
-  return data.products.filter(isSellableProduct)
+  // Sellable products may be a strict subset of `count` (an incomplete
+  // product still counts server-side), so callers that paginate use the
+  // returned `count` only to decide whether more raw pages exist, not as
+  // the number of sellable items on this page.
+  return { products: data.products.filter(isSellableProduct), count: data.count }
 }
 
 // A product published without a thumbnail or without a price in the

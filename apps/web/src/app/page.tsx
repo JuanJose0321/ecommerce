@@ -1,14 +1,9 @@
 import { Suspense } from "react"
-import { listCategories, listProducts } from "@/lib/medusa"
-import { getReviewSummaries } from "@/lib/reviews"
+import { listCategories } from "@/lib/medusa"
 import {
-  filterAndSortProducts,
-  getAvailableColors,
-  getAvailableMaterials,
-  getPriceBounds,
+  fetchCatalogPage,
+  getCatalogFacets,
   parseCatalogFilters,
-  toCatalogProduct,
-  withReviewSummaries,
 } from "@/lib/catalog"
 import { CatalogFilters } from "@/components/catalog-filters"
 import { CatalogSkeleton } from "@/components/catalog-skeleton"
@@ -52,28 +47,27 @@ async function CatalogSection({
 }: {
   searchParams: Record<string, string | string[] | undefined>
 }) {
-  const [products, categories] = await Promise.all([
-    listProducts(),
-    listCategories(),
-  ])
-
-  const baseCatalogProducts = products.map(toCatalogProduct)
-  const reviewSummaries = await getReviewSummaries(
-    baseCatalogProducts.map((p) => p.id)
-  )
-  const catalogProducts = withReviewSummaries(baseCatalogProducts, reviewSummaries)
   const filters = parseCatalogFilters(searchParams)
-  const filtered = filterAndSortProducts(catalogProducts, filters)
+
+  const [categories, facets, page] = await Promise.all([
+    listCategories(),
+    getCatalogFacets(),
+    fetchCatalogPage({ filters, offset: 0 }),
+  ])
 
   return (
     <section className="space-y-10">
       <CatalogFilters
         categories={categories}
-        colors={getAvailableColors(catalogProducts)}
-        materials={getAvailableMaterials(catalogProducts)}
-        priceBounds={getPriceBounds(catalogProducts)}
+        colors={facets.colors}
+        materials={facets.materials}
+        priceBounds={facets.priceBounds}
       />
-      <ProductGrid products={filtered} />
+      <ProductGrid
+        products={page.products}
+        nextOffset={page.nextOffset}
+        filters={filters}
+      />
     </section>
   )
 }

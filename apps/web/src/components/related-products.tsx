@@ -11,7 +11,7 @@ export async function RelatedProducts({
 }) {
   if (!categoryHandle) return null
 
-  const products = await listProducts()
+  const { products } = await listProducts({ limit: 100 })
   const related = products
     .map(toCatalogProduct)
     .filter(
